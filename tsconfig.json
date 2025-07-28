@@ -21,6 +21,9 @@
       "@helpers/*": [
         "./src/helpers/*"
       ],
+      "@hooks/*": [
+        "./src/hooks/*"
+      ],
       "@layouts/*": [
         "./src/layouts/*"
       ],
@@ -41,6 +44,9 @@
       ],
       "@utils/*": [
         "./src/utils/*"
+      ],
+      "@app": [
+        "./src/App"
       ],
     },
   }
