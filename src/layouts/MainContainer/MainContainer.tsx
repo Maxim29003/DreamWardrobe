@@ -2,6 +2,7 @@ import { StyleSheet, View } from 'react-native';
 import React, { ReactNode } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
+import { LINEAR_GRADIENT_END, LINEAR_GRADIENT_START } from '@styles/colors';
 
 type MainContainerProps = {
   children: ReactNode;
@@ -11,7 +12,7 @@ const MainContainer = ({ children }: MainContainerProps) => {
   const insets = useSafeAreaInsets();
   return (
     <LinearGradient
-      colors={['#FDF0F3', '#FFFBFC']}
+      colors={[LINEAR_GRADIENT_START, LINEAR_GRADIENT_END]}
       style={styles.linearGradient}
     >
       <View
