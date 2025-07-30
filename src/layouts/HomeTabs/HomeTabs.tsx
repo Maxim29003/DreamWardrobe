@@ -1,4 +1,3 @@
-import { StyleSheet, Text, View } from 'react-native';
 import React, { useMemo } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { TabsScreens } from '@routes/tabRoutes';
@@ -14,8 +13,9 @@ const HomeTabs = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
+        tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: 'transparent', // делаем панель прозрачной
+          backgroundColor: 'transparent',
           borderTopWidth: 0,
           elevation: 0,
           position: 'absolute'
@@ -29,4 +29,3 @@ const HomeTabs = () => {
 
 export default HomeTabs;
 
-const styles = StyleSheet.create({});
