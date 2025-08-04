@@ -3,51 +3,22 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@api/*": [
-        "./src/api/*"
-      ],
-      "@assets/*": [
-        "./src/assets/*"
-      ],
-      "@components/*": [
-        "./src/components/*"
-      ],
-      "@configs/*": [
-        "./src/config/*"
-      ],
-      "@constants/*": [
-        "./src/constants/*"
-      ],
-      "@helpers/*": [
-        "./src/helpers/*"
-      ],
-      "@hooks/*": [
-        "./src/hooks/*"
-      ],
-      "@layouts/*": [
-        "./src/layouts/*"
-      ],
-      "@routes/*": [
-        "./src/routes/*"
-      ],
-      "@screens/*": [
-        "./src/screens/*"
-      ],
-      "@store": [
-        "./src/store/store"
-      ],
-      "@styles/*": [
-        "./src/styles/*"
-      ],
-      "@types/*": [
-        "./src/types/*"
-      ],
-      "@utils/*": [
-        "./src/utils/*"
-      ],
-      "@app": [
-        "./src/App"
-      ],
-    },
+      "@api/*": ["./src/api/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@ui/*": ["./src/components/ui/*"],
+      "@components/*": ["./src/components/*"],
+      "@configs/*": ["./src/config/*"],
+      "@constants/*": ["./src/constants/*"],
+      "@helpers/*": ["./src/helpers/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@layouts/*": ["./src/layouts/*"],
+      "@routes/*": ["./src/routes/*"],
+      "@screens/*": ["./src/screens/*"],
+      "@store": ["./src/store/store"],
+      "@styles/*": ["./src/styles/*"],
+      "@types/*": ["./src/types/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@app": ["./src/App"]
+    }
   }
 }
