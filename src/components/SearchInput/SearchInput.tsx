@@ -7,7 +7,12 @@ import { FONT_COLOR_SECONDARY } from '@styles/colors';
 import Spacer from '@components/Spacer/Spacer';
 import { styles } from './styles';
 
-const SearchInput = () => {
+type SearchInputProps = {
+  value?: string | undefined;
+  onChangeText?: ((text: string) => void) | undefined;
+};
+
+const SearchInput = ({ value, onChangeText }: SearchInputProps) => {
   return (
     <View style={styles.container}>
       <Spacer width={15} />
@@ -15,7 +20,11 @@ const SearchInput = () => {
         <SearchIcon fill={FONT_COLOR_SECONDARY} width={26} height={26} />
       </Button>
       <Spacer width={10} />
-      <InputBase placeholder="Search" />
+      <InputBase
+        placeholder="Search"
+        value={value}
+        onChangeText={onChangeText}
+      />
       <Spacer width={15} />
     </View>
   );
