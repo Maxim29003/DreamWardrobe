@@ -11,7 +11,7 @@ const Profile = () => {
    <MainContainer>
       <Header>
         <BackButton />
-        <Text style={[typography.mainTitleStyles, {flex:1, textAlign: 'center'}]}>My Profile</Text>
+        <Text style={[typography.mainTitle, {flex:1, textAlign: 'center'}]}>My Profile</Text>
       </Header>
      <Text>Profile</Text>
    </MainContainer>

@@ -11,7 +11,7 @@ const BasketScreen = () => {
     <MainContainer>
       <Header>
         <BackButton />
-        <Text style={typography.mainTitleStyles}>My Basket</Text>
+        <Text style={typography.mainTitle}>My Basket</Text>
         <Avatar
           size={44}
           uri="https://avatars.mds.yandex.net/i?id=451c2720edb5fdad00d8f320ba5d50980af55381-9065873-images-thumbs&n=13"

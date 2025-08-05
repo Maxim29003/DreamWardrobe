@@ -13,7 +13,7 @@ const FavoritesScreen = () => {
     <MainContainer>
       <Header>
         <BackButton/>
-        <Text style={typography.mainTitleStyles}>My Favorites</Text>
+        <Text style={typography.mainTitle}>My Favorites</Text>
         <Avatar
           size={44}
           uri="https://avatars.mds.yandex.net/i?id=451c2720edb5fdad00d8f320ba5d50980af55381-9065873-images-thumbs&n=13"
