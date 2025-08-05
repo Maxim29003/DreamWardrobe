@@ -16,6 +16,7 @@ module.exports = {
           '@helpers': './src/helpers',
           '@hooks': './src/hooks',
           '@layouts': './src/layouts',
+          '@mocks': './src/mocks',
           '@routes': './src/routes',
           '@screens': './src/screens',
           '@store': './src/store',
