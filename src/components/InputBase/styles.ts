@@ -10,7 +10,6 @@ export const styles = StyleSheet.create({
     color: FONT_COLOR_SECONDARY,
     borderRadius: 12,
     paddingHorizontal: 10,
-    flex:1,
   },
   inputIPhone: {
     height: 48,

@@ -21,6 +21,7 @@ const SearchInput = ({ value, onChangeText }: SearchInputProps) => {
       </Button>
       <Spacer width={10} />
       <InputBase
+        style={styles.input}
         placeholder="Search"
         value={value}
         onChangeText={onChangeText}
