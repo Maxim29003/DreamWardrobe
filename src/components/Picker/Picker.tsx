@@ -37,7 +37,6 @@ const Picker = <T,>({
     <FlatList
       {...props}
       data={data}
-      keyExtractor={(_, index) => index.toString()}
       renderItem={({ item }) => (
         <TouchableOpacity onPress={() => handleSelect(item)}>
           {renderItem(item, selectedValue)}
