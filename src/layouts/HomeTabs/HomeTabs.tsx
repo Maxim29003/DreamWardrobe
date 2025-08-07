@@ -18,6 +18,7 @@ const HomeTabs = () => {
         tabBarStyle: {
           backgroundColor: LINEAR_GRADIENT_END,
           borderTopWidth: 0,
+          elevation:0,
         },
       }}
     >
