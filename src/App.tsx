@@ -13,7 +13,7 @@ function App() {
      <SafeAreaProvider>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName={SCREENS.HOME_TABS}
+          initialRouteName={SCREENS.AUTH_INIT}
           screenOptions={{ headerShown: false }}
         >
           {RoutesScreens.map((screen: ScreenProps) => (
