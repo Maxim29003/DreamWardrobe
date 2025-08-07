@@ -31,6 +31,7 @@ export const TabsScreens: TabScreenProps[] = [
     name: SCREENS.FAVORITES,
     component: FavoritesScreen,
     options: {
+      tabBarStyle:{display: 'none'},
       tabBarIcon: ({ size }) => {
         return (
           <HeartOutlineIcon
@@ -47,6 +48,7 @@ export const TabsScreens: TabScreenProps[] = [
     name: SCREENS.BASKET,
     component: BasketScreen,
     options: {
+      tabBarStyle:{display: 'none'},
       tabBarIcon: ({ size }) => {
         return (
           <BasketIcon width={size} height={size} fill={TAB_BAR_ICON_COLOR} />
@@ -59,6 +61,7 @@ export const TabsScreens: TabScreenProps[] = [
     name: SCREENS.PROFILE,
     component: Profile,
     options: {
+      tabBarStyle:{display: 'none'},
       tabBarIcon: ({ size }) => {
         return (
           <ProfileIcon width={size} height={size} fill={TAB_BAR_ICON_COLOR} />
