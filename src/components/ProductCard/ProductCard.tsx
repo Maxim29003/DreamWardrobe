@@ -1,20 +1,29 @@
 import { Image, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { typography } from '@styles/typography';
-import { blackImage } from '@mocks/testImages';
+
 import LikeButton from '@ui/LikeButton/LikeButton';
 import { styles } from './styles';
 import { SCREENS } from '@routes/navigations.types';
 import useAppNavigation from '@hooks/useAppNavigation';
 
-const ProductCard = () => {
-  const navigation = useAppNavigation()
+type ProductCardProps = {
+  name: string;
+  price: number;
+  photo: string;
+};
+
+const ProductCard = ({ name, price, photo }: ProductCardProps) => {
+  const navigation = useAppNavigation();
   return (
-    <TouchableOpacity style={styles.container} onPress={()=>navigation.navigate(SCREENS.PRODUCT_DETAIL)}>
-      <Image source={blackImage} style={styles.image} />
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => navigation.navigate(SCREENS.PRODUCT_DETAIL)}
+    >
+      <Image source={{ uri: photo }} style={styles.image} />
       <LikeButton style={styles.likeButton} />
-      <Text style={typography.smallTitle}>Jacket Jeans</Text>
-      <Text style={typography.smallTitleSecondary}>$45.9</Text>
+      <Text style={typography.smallTitle}>{name}</Text>
+      <Text style={typography.smallTitleSecondary}>{price}</Text>
     </TouchableOpacity>
   );
 };

@@ -1,5 +1,5 @@
 import { Text } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import MainContainer from '@layouts/MainContainer/MainContainer';
 import Header from '@layouts/Header/Header';
 import Avatar from '@ui/Avatar/Avatar';
@@ -11,8 +11,18 @@ import { calculateNumColumns, HEIGHT, WIDTH } from '@utils/normalizer';
 import ProductCard from '@components/ProductCard/ProductCard';
 import { typography } from '@styles/typography';
 import Spacer from '@components/Spacer/Spacer';
+import { fetchProducts } from '@store/productSlice';
+import { useAppDispatch } from '@hooks/useAppDispatch';
+import { useAppSelector } from '@hooks/useAppSelector';
 
 const HomeScreen = () => {
+  const dispatch = useAppDispatch();
+  const products = useAppSelector(state => state.products.products);
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
   return (
     <MainContainer>
       <Header>
@@ -23,9 +33,15 @@ const HomeScreen = () => {
         />
       </Header>
       <GridLayout
-        data={DATA}
-        keyExtractor={({ id }) => id}
-        renderItem={item => <ProductCard />}
+        data={products}
+        keyExtractor={({ $id }) => $id}
+        renderItem={item => (
+          <ProductCard
+            name={item.name}
+            price={item.price}
+            photo={item.photos[0]}
+          />
+        )}
         columnGap={20}
         numColumns={calculateNumColumns()}
         rowGap={20}

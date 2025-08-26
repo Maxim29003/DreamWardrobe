@@ -15,7 +15,7 @@
       "@mocks/*": ["./src/mocks/*"],
       "@routes/*": ["./src/routes/*"],
       "@screens/*": ["./src/screens/*"],
-      "@store": ["./src/store/store"],
+      "@store/*": ["./src/store/*"],
       "@styles/*": ["./src/styles/*"],
       "@types/*": ["./src/types/*"],
       "@utils/*": ["./src/utils/*"],
