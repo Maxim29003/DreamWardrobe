@@ -8,10 +8,13 @@ import Avatar from '@ui/Avatar/Avatar';
 import { GridLayout } from '@layouts/GridLayout/GridLayout';
 import { calculateNumColumns, HEIGHT, WIDTH } from '@utils/normalizer';
 import ProductCard from '@components/ProductCard/ProductCard';
-import { DATA } from '@mocks/testImages';
 import Spacer from '@components/Spacer/Spacer';
+import { useAppSelector } from '@hooks/useAppSelector';
 
 const FavoritesScreen = () => {
+  const productsLike = useAppSelector(state =>
+    state.products.products.filter(product => product.like),
+  );
   return (
     <MainContainer>
       <Header>
@@ -23,9 +26,17 @@ const FavoritesScreen = () => {
         />
       </Header>
       <GridLayout
-        data={DATA}
-        keyExtractor={({ id }) => id}
-        renderItem={item => <ProductCard />}
+        data={productsLike}
+        keyExtractor={({ $id }) => $id}
+        renderItem={item => (
+          <ProductCard
+            id={item.$id}
+            like={item.like}
+            name={item.name}
+            price={item.price}
+            photo={item.photos[0]}
+          />
+        )}
         columnGap={20}
         numColumns={calculateNumColumns()}
         rowGap={20}
@@ -39,5 +50,3 @@ const FavoritesScreen = () => {
 };
 
 export default FavoritesScreen;
-
-

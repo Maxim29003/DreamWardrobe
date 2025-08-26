@@ -37,6 +37,8 @@ const HomeScreen = () => {
         keyExtractor={({ $id }) => $id}
         renderItem={item => (
           <ProductCard
+            id={item.$id}
+            like={item.like}
             name={item.name}
             price={item.price}
             photo={item.photos[0]}

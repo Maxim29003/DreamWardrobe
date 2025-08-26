@@ -1,5 +1,5 @@
 import { database } from '@api/appwrite';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Product } from '@types/Product';
 import { DREAM_WARDROBE_DB, PRODUCTS } from '../../env';
 
@@ -23,10 +23,39 @@ export const fetchProducts = createAsyncThunk(
   },
 );
 
+interface UpdateLikePayload {
+  id: string;
+  like: boolean;
+}
+
+export const toggleLike = createAsyncThunk<Product, UpdateLikePayload>(
+  'products/toggleLike',
+  async ({ id, like }) => {
+    const response = (await database.updateDocument(
+      DREAM_WARDROBE_DB,
+      PRODUCTS,
+      id,
+      {
+        like: !like,
+      },
+    )) as Product;
+    return response;
+  },
+);
+
 const productSlice = createSlice({
   name: 'products',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    toggleLiker(state, action: PayloadAction<string>) {
+      state.products = state.products.map(product => {
+        if (product.$id === action.payload) {
+          return { ...product, like: !product.like };
+        }
+        return product;
+      });
+    },
+  },
   extraReducers: builder => {
     builder.addCase(fetchProducts.pending, (state, action) => {
       state.status = 'loading';
@@ -42,6 +71,15 @@ const productSlice = createSlice({
     builder.addCase(fetchProducts.rejected, (state, action) => {
       state.status = 'failed';
       state.error = 'Ошибка загрузки';
+    });
+
+    builder.addCase(toggleLike.fulfilled, (state, action) => {
+      state.products = state.products.map(product => {
+        if (product.$id === action.payload.$id) {
+          return { ...product, like: action.payload.like };
+        }
+        return product;
+      });
     });
   },
 });

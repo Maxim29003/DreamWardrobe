@@ -6,4 +6,5 @@ export interface Product extends Models.Document {
   photos: string[];
   sizes: string;
   color: string;
+  like: boolean;
 }
