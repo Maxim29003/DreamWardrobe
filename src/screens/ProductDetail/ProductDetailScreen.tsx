@@ -13,8 +13,15 @@ import { PRIMARY } from '@styles/colors';
 import ColorLabel from '@ui/ColorLabel/ColorLabel';
 import PrimaryButton from '@ui/PrimaryButton/PrimaryButton';
 import { styles } from './styles';
+import useAppRoute from '@hooks/useAppRoute';
+import { useAppDispatch } from '@hooks/useAppDispatch';
+import { addProduct } from '@store/basketSlice';
 
 const ProductDetailScreen = () => {
+  const route = useAppRoute();
+  const product = route.params?.product;
+  const dispatch = useAppDispatch();
+
   return (
     <MainContainer>
       <Header>
@@ -29,13 +36,13 @@ const ProductDetailScreen = () => {
         showsVerticalScrollIndicator={false}
       >
         <Spacer height={10} />
-        <Image source={pinkImage} style={styles.image} />
+        <Image source={{ uri: product?.photos[0] }} style={styles.image} />
 
         <Spacer height={14} />
         <View style={styles.row}>
-          <Text style={typography.mediumTitle}>{'Winter Coat'}</Text>
+          <Text style={typography.mediumTitle}>{product?.name}</Text>
           <Text style={[typography.mediumTitle, styles.priceText]}>
-            {'$65.9'}
+            {product?.price}
           </Text>
         </View>
         <Spacer height={24} />
@@ -85,7 +92,15 @@ const ProductDetailScreen = () => {
           )}
         />
         <Spacer height={31} />
-        <PrimaryButton text="Add to Cart" />
+        <PrimaryButton
+          text="Add to Cart"
+          onPress={() => {
+            if (product) {
+              console.log(product)
+              dispatch(addProduct(product));
+            }
+          }}
+        />
         <Spacer height={31} />
       </ScrollView>
     </MainContainer>

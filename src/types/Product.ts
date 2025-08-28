@@ -4,7 +4,7 @@ export interface Product extends Models.Document {
   name: string;
   price: number;
   photos: string[];
-  sizes: string;
+  size: string;
   color: string;
   like: boolean;
 }

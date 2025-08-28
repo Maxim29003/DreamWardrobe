@@ -46,16 +46,7 @@ export const toggleLike = createAsyncThunk<Product, UpdateLikePayload>(
 const productSlice = createSlice({
   name: 'products',
   initialState: initialState,
-  reducers: {
-    toggleLiker(state, action: PayloadAction<string>) {
-      state.products = state.products.map(product => {
-        if (product.$id === action.payload) {
-          return { ...product, like: !product.like };
-        }
-        return product;
-      });
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchProducts.pending, (state, action) => {
       state.status = 'loading';

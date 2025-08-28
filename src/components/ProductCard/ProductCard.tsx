@@ -8,6 +8,7 @@ import { SCREENS } from '@routes/navigations.types';
 import useAppNavigation from '@hooks/useAppNavigation';
 import { useAppDispatch } from '@hooks/useAppDispatch';
 import { toggleLike } from '@store/productSlice';
+import { useAppSelector } from '@hooks/useAppSelector';
 
 type ProductCardProps = {
   id: string;
@@ -20,11 +21,12 @@ type ProductCardProps = {
 const ProductCard = ({ name, price, photo, like, id }: ProductCardProps) => {
   const dispatch = useAppDispatch();
   const navigation = useAppNavigation();
+  const product = useAppSelector((state)=> state.products.products.find((product)=>product.$id === id))
 
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => navigation.navigate(SCREENS.PRODUCT_DETAIL)}
+      onPress={() => navigation.navigate(SCREENS.PRODUCT_DETAIL, {product: product})}
     >
       <Image source={{ uri: photo }} style={styles.image} />
       <LikeButton
