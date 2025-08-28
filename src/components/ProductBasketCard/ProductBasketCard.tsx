@@ -1,21 +1,21 @@
 import { Image, Text, View } from 'react-native';
 import React from 'react';
-import { orangeImage } from '@mocks/testImages';
 import { typography } from '@styles/typography';
 import ColorLabel from '@ui/ColorLabel/ColorLabel';
 import SizeLabel from '@ui/SizeLabel/SizeLabel';
 import DeleteButton from '@ui/DeleteButton/DeleteButton';
 import { styles } from './styles';
-import { Product } from '@types/Product';
 import { deleteProduct } from '@store/basketSlice';
 import { useAppDispatch } from '@hooks/useAppDispatch';
+import { ProductBasketCardType } from '@type/ProductBasketCardType';
+import Spacer from '@components/Spacer/Spacer';
 
 type ProductBasketCardProps = {
-  product: Product;
+  product: ProductBasketCardType;
 };
 
 const ProductBasketCard = ({ product }: ProductBasketCardProps) => {
- const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   return (
     <View style={styles.container}>
@@ -32,14 +32,20 @@ const ProductBasketCard = ({ product }: ProductBasketCardProps) => {
           </View>
         </View>
       </View>
-      <DeleteButton
-        onPress={() => {
-          if (product) {
-            console.log(product);
-            dispatch(deleteProduct(product));
-          }
-        }}
-      />
+      <View>
+        <DeleteButton
+          onPress={() => {
+            if (product) {
+              console.log(product);
+              dispatch(deleteProduct(product));
+            }
+          }}
+        />
+        <Spacer height={15} />
+        <Text style={typography.smallTitleSecondary}>
+          {product.countProduct}
+        </Text>
+      </View>
     </View>
   );
 };

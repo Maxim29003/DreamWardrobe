@@ -1,42 +1,35 @@
-import { Image, Text, TouchableOpacity } from 'react-native';
-import React from 'react';
+import { Image, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
 import { typography } from '@styles/typography';
-
 import LikeButton from '@ui/LikeButton/LikeButton';
 import { styles } from './styles';
-import { SCREENS } from '@routes/navigations.types';
-import useAppNavigation from '@hooks/useAppNavigation';
 import { useAppDispatch } from '@hooks/useAppDispatch';
-import { toggleLike } from '@store/productSlice';
+import { ProductCardType } from '@type/ProductCardType';
+import { toggleLike } from '@store/favoritesSlice';
 import { useAppSelector } from '@hooks/useAppSelector';
 
+
 type ProductCardProps = {
-  id: string;
-  name: string;
-  price: number;
-  photo: string;
-  like: boolean;
+  productCard: ProductCardType;
 };
 
-const ProductCard = ({ name, price, photo, like, id }: ProductCardProps) => {
+const ProductCard = ({ productCard }: ProductCardProps) => {
   const dispatch = useAppDispatch();
-  const navigation = useAppNavigation();
-  const product = useAppSelector((state)=> state.products.products.find((product)=>product.$id === id))
+  const like = useAppSelector(
+    state => state.favorites.favorites[productCard.id]?.like,
+  );
 
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() => navigation.navigate(SCREENS.PRODUCT_DETAIL, {product: product})}
-    >
-      <Image source={{ uri: photo }} style={styles.image} />
+    <View style={styles.container}>
+      <Image source={{ uri: productCard.photos[0] }} style={styles.image} />
       <LikeButton
-        like={like}
+        like={like ?? false}
         style={styles.likeButton}
-        onPress={() => dispatch(toggleLike({ id, like }))}
+        onPress={() => dispatch(toggleLike(productCard))}
       />
-      <Text style={typography.smallTitle}>{name}</Text>
-      <Text style={typography.smallTitleSecondary}>{price}</Text>
-    </TouchableOpacity>
+      <Text style={typography.smallTitle}>{productCard.name}</Text>
+      <Text style={typography.smallTitleSecondary}>{productCard.price}</Text>
+    </View>
   );
 };
 

@@ -12,12 +12,20 @@ import Spacer from '@components/Spacer/Spacer';
 import PrimaryButton from '@ui/PrimaryButton/PrimaryButton';
 import { styles } from './styles';
 import { useAppSelector } from '@hooks/useAppSelector';
+import { ProductBasketCardType } from '@type/ProductBasketCardType';
+import { createSelector } from '@reduxjs/toolkit';
 
 const BasketScreen = () => {
-  const {basket, totalPrice, count} = useAppSelector((state) => state.basket)
-  useEffect(()=>{
-    console.log(basket)
-  }, [])
+  const { totalPrice, count } = useAppSelector(state => state.basket);
+
+  const basket = useAppSelector(
+    createSelector([state => state.basket.basket], basket =>
+      Object.values(basket).filter(
+        (item): item is ProductBasketCardType => item !== undefined,
+      ),
+    ),
+  );
+
   return (
     <MainContainer>
       <Header>
@@ -31,8 +39,8 @@ const BasketScreen = () => {
       <View style={styles.centeredContainer}>
         <GridLayout
           data={basket}
-          keyExtractor={({ id$ }) => id$}
-          renderItem={(item) => <ProductBasketCard product={item}/>}
+          keyExtractor={({ id }) => id}
+          renderItem={item => <ProductBasketCard product={item} />}
           columnGap={20}
           numColumns={1}
           parentPaddingHorizontal={30}
@@ -46,7 +54,7 @@ const BasketScreen = () => {
   );
 };
 
-const renderFooter = (totalPrice:number, count: number) => (
+const renderFooter = (totalPrice: number, count: number) => (
   <>
     <View style={styles.footerRow}>
       <Text style={typography.smallTitleSecondary}>Total:</Text>

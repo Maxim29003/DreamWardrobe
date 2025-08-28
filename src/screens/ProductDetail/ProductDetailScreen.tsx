@@ -16,6 +16,7 @@ import { styles } from './styles';
 import useAppRoute from '@hooks/useAppRoute';
 import { useAppDispatch } from '@hooks/useAppDispatch';
 import { addProduct } from '@store/basketSlice';
+import { toProductBasketCard } from '@utils/productUtils';
 
 const ProductDetailScreen = () => {
   const route = useAppRoute();
@@ -96,8 +97,8 @@ const ProductDetailScreen = () => {
           text="Add to Cart"
           onPress={() => {
             if (product) {
-              console.log(product)
-              dispatch(addProduct(product));
+              console.log(product);
+              dispatch(addProduct(toProductBasketCard(product)));
             }
           }}
         />

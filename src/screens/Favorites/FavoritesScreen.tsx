@@ -1,5 +1,5 @@
-import { Text } from 'react-native';
-import React from 'react';
+import { Text, TouchableOpacity } from 'react-native';
+import React, { useEffect, useMemo, useRef } from 'react';
 import MainContainer from '@layouts/MainContainer/MainContainer';
 import Header from '@layouts/Header/Header';
 import BackButton from '@layouts/Header/components/BackButton/BackButton';
@@ -10,11 +10,18 @@ import { calculateNumColumns, HEIGHT, WIDTH } from '@utils/normalizer';
 import ProductCard from '@components/ProductCard/ProductCard';
 import Spacer from '@components/Spacer/Spacer';
 import { useAppSelector } from '@hooks/useAppSelector';
+import { createSelector } from '@reduxjs/toolkit';
+import { ProductCardType } from '@type/ProductCardType';
 
 const FavoritesScreen = () => {
-  const productsLike = useAppSelector(state =>
-    state.products.products.filter(product => product.like),
+  const favorites = useAppSelector(
+    createSelector([state => state.favorites.favorites], favorites =>
+      Object.values(favorites).filter(
+        (item): item is ProductCardType => item !== undefined,
+      ),
+    ),
   );
+
   return (
     <MainContainer>
       <Header>
@@ -26,17 +33,9 @@ const FavoritesScreen = () => {
         />
       </Header>
       <GridLayout
-        data={productsLike}
-        keyExtractor={({ $id }) => $id}
-        renderItem={item => (
-          <ProductCard
-            id={item.$id}
-            like={item.like}
-            name={item.name}
-            price={item.price}
-            photo={item.photos[0]}
-          />
-        )}
+        data={favorites}
+        keyExtractor={({ id }) => id}
+        renderItem={product => <ProductCard productCard={product} />}
         columnGap={20}
         numColumns={calculateNumColumns()}
         rowGap={20}

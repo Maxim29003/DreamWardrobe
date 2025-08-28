@@ -1,11 +1,10 @@
-import { Text } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import React, { useEffect } from 'react';
 import MainContainer from '@layouts/MainContainer/MainContainer';
 import Header from '@layouts/Header/Header';
 import Avatar from '@ui/Avatar/Avatar';
 import HeaderMainLabel from '@layouts/Header/components/HeaderMainLabel/HeaderMainLabel';
 import SearchInput from '@components/SearchInput/SearchInput';
-import { DATA } from '@mocks/testImages';
 import { GridLayout } from '@layouts/GridLayout/GridLayout';
 import { calculateNumColumns, HEIGHT, WIDTH } from '@utils/normalizer';
 import ProductCard from '@components/ProductCard/ProductCard';
@@ -14,10 +13,14 @@ import Spacer from '@components/Spacer/Spacer';
 import { fetchProducts } from '@store/productSlice';
 import { useAppDispatch } from '@hooks/useAppDispatch';
 import { useAppSelector } from '@hooks/useAppSelector';
+import useAppNavigation from '@hooks/useAppNavigation';
+import { SCREENS } from '@routes/navigations.types';
+import { toProductCard } from '@utils/productUtils';
 
 const HomeScreen = () => {
   const dispatch = useAppDispatch();
   const products = useAppSelector(state => state.products.products);
+  const navigation = useAppNavigation();
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -35,14 +38,15 @@ const HomeScreen = () => {
       <GridLayout
         data={products}
         keyExtractor={({ $id }) => $id}
-        renderItem={item => (
-          <ProductCard
-            id={item.$id}
-            like={item.like}
-            name={item.name}
-            price={item.price}
-            photo={item.photos[0]}
-          />
+        renderItem={product => (
+          <TouchableOpacity
+            style={{ flex: 1 }}
+            onPress={() =>
+              navigation.navigate(SCREENS.PRODUCT_DETAIL, { product: product })
+            }
+          >
+            <ProductCard productCard={toProductCard(product)} />
+          </TouchableOpacity>
         )}
         columnGap={20}
         numColumns={calculateNumColumns()}

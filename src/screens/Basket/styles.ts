@@ -1,10 +1,11 @@
-import { FONT_COLOR_SECONDARY } from "@styles/colors";
-import { StyleSheet } from "react-native";
+import { FONT_COLOR_SECONDARY } from '@styles/colors';
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   centeredContainer: {
     alignItems: 'center',
     flex: 1,
+    flexDirection: 'row',
   },
   footerRow: {
     flexDirection: 'row',
