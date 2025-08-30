@@ -14,17 +14,12 @@ import { styles } from './styles';
 import { useAppSelector } from '@hooks/useAppSelector';
 import { ProductBasketCardType } from '@type/ProductBasketCardType';
 import { createSelector } from '@reduxjs/toolkit';
+import BasketSelectors, { basketProductIdsSelector } from '@store/selectors/basket.selectors.ts';
 
 const BasketScreen = () => {
   const { totalPrice, count } = useAppSelector(state => state.basket);
 
-  const basket = useAppSelector(
-    createSelector([state => state.basket.basket], basket =>
-      Object.values(basket).filter(
-        (item): item is ProductBasketCardType => item !== undefined,
-      ),
-    ),
-  );
+  const basket = useAppSelector(BasketSelectors.ids);
 
   return (
     <MainContainer>
@@ -39,8 +34,8 @@ const BasketScreen = () => {
       <View style={styles.centeredContainer}>
         <GridLayout
           data={basket}
-          keyExtractor={({ id }) => id}
-          renderItem={item => <ProductBasketCard product={item} />}
+          keyExtractor={(id) => id.toString()}
+          renderItem={item => <ProductBasketCard id={item} />}
           columnGap={20}
           numColumns={1}
           parentPaddingHorizontal={30}

@@ -15,8 +15,7 @@ import PrimaryButton from '@ui/PrimaryButton/PrimaryButton';
 import { styles } from './styles';
 import useAppRoute from '@hooks/useAppRoute';
 import { useAppDispatch } from '@hooks/useAppDispatch';
-import { addProduct } from '@store/basketSlice';
-import { toProductBasketCard } from '@utils/productUtils';
+import BasketActions from '@store/actions/basket.actions.ts';
 
 const ProductDetailScreen = () => {
   const route = useAppRoute();
@@ -98,7 +97,7 @@ const ProductDetailScreen = () => {
           onPress={() => {
             if (product) {
               console.log(product);
-              dispatch(addProduct(toProductBasketCard(product)));
+              dispatch(BasketActions.addProduct(product));
             }
           }}
         />
