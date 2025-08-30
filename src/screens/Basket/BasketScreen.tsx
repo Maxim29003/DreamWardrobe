@@ -1,19 +1,26 @@
 import { Text, View } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import MainContainer from '@layouts/MainContainer/MainContainer';
 import Header from '@layouts/Header/Header';
 import BackButton from '@layouts/Header/components/BackButton/BackButton';
 import { typography } from '@styles/typography';
 import Avatar from '@ui/Avatar/Avatar';
-import { DATA } from '@mocks/testImages';
 import ProductBasketCard from '@components/ProductBasketCard/ProductBasketCard';
 import { WIDTH } from '@utils/normalizer';
 import { GridLayout } from '@layouts/GridLayout/GridLayout';
 import Spacer from '@components/Spacer/Spacer';
 import PrimaryButton from '@ui/PrimaryButton/PrimaryButton';
 import { styles } from './styles';
+import { useAppSelector } from '@hooks/useAppSelector';
+import { ProductBasketCardType } from '@type/ProductBasketCardType';
+import { createSelector } from '@reduxjs/toolkit';
+import BasketSelectors, { basketProductIdsSelector } from '@store/selectors/basket.selectors.ts';
 
 const BasketScreen = () => {
+  const { totalPrice, count } = useAppSelector(state => state.basket);
+
+  const basket = useAppSelector(BasketSelectors.ids);
+
   return (
     <MainContainer>
       <Header>
@@ -26,36 +33,36 @@ const BasketScreen = () => {
       </Header>
       <View style={styles.centeredContainer}>
         <GridLayout
-          data={DATA}
-          keyExtractor={({ id }) => id}
-          renderItem={() => <ProductBasketCard />}
+          data={basket}
+          keyExtractor={(id) => id.toString()}
+          renderItem={item => <ProductBasketCard id={item} />}
           columnGap={20}
           numColumns={1}
           parentPaddingHorizontal={30}
           heightItem={125}
           widthScreen={WIDTH < 560 ? WIDTH : 560}
           ListHeaderComponent={<Spacer height={20} />}
-          ListFooterComponent={renderFooter()}
+          ListFooterComponent={renderFooter(totalPrice, count)}
         />
       </View>
     </MainContainer>
   );
 };
 
-const renderFooter = () => (
+const renderFooter = (totalPrice: number, count: number) => (
   <>
     <View style={styles.footerRow}>
       <Text style={typography.smallTitleSecondary}>Total:</Text>
       <Text style={[typography.smallTitleSecondary, styles.boldText]}>
-        {'$119.7'}
+        {totalPrice}
       </Text>
     </View>
     <Spacer height={15} />
 
     <View style={styles.footerRow}>
-      <Text style={typography.smallTitleSecondary}>Shipping:</Text>
+      <Text style={typography.smallTitleSecondary}>Count:</Text>
       <Text style={[typography.smallTitleSecondary, styles.boldText]}>
-        {'$0.0'}
+        {count}
       </Text>
     </View>
     <Spacer height={15} />
@@ -65,7 +72,7 @@ const renderFooter = () => (
 
     <View style={styles.footerRow}>
       <Text style={typography.smallTitleSecondary}>Grand Total:</Text>
-      <Text style={[typography.smallTitle, styles.boldText]}>{'$119.7'}</Text>
+      <Text style={[typography.smallTitle, styles.boldText]}>{totalPrice}</Text>
     </View>
     <Spacer height={25} />
 

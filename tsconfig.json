@@ -15,11 +15,12 @@
       "@mocks/*": ["./src/mocks/*"],
       "@routes/*": ["./src/routes/*"],
       "@screens/*": ["./src/screens/*"],
-      "@store": ["./src/store/store"],
+      "@store/*": ["./src/store/*"],
       "@styles/*": ["./src/styles/*"],
-      "@types/*": ["./src/types/*"],
+      "@type/*": ["./src/types/*"],
       "@utils/*": ["./src/utils/*"],
       "@app": ["./src/App"]
     }
-  }
+  },
+  "typeRoots": ["./node_modules/@types", "./src/types/declarations"]
 }
