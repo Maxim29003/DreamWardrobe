@@ -5,17 +5,21 @@ import ColorLabel from '@ui/ColorLabel/ColorLabel';
 import SizeLabel from '@ui/SizeLabel/SizeLabel';
 import DeleteButton from '@ui/DeleteButton/DeleteButton';
 import { styles } from './styles';
-import { deleteProduct } from '@store/basketSlice';
 import { useAppDispatch } from '@hooks/useAppDispatch';
 import { ProductBasketCardType } from '@type/ProductBasketCardType';
 import Spacer from '@components/Spacer/Spacer';
+import BasketActions from '@store/actions/basket.actions.ts';
+import { useAppSelector } from '@hooks/useAppSelector.ts';
+import BasketSelectors from '@store/selectors/basket.selectors.ts';
 
 type ProductBasketCardProps = {
-  product: ProductBasketCardType;
+  id: ProductBasketCardType['id'];
 };
 
-const ProductBasketCard = ({ product }: ProductBasketCardProps) => {
+const ProductBasketCard = ({ id }: ProductBasketCardProps) => {
   const dispatch = useAppDispatch();
+
+  const product = useAppSelector(BasketSelectors.selectById(id));
 
   return (
     <View style={styles.container}>
@@ -37,7 +41,7 @@ const ProductBasketCard = ({ product }: ProductBasketCardProps) => {
           onPress={() => {
             if (product) {
               console.log(product);
-              dispatch(deleteProduct(product));
+              dispatch(BasketActions.deleteProduct(product));
             }
           }}
         />
