@@ -1,53 +1,65 @@
-import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { ProductBasketCardType } from '@type/ProductBasketCardType';
+import {
+  createEntityAdapter,
+  createSlice,
+  EntityState,
+} from '@reduxjs/toolkit';
 import BasketActions from '@store/actions/basket.actions.ts';
+import { ProductType } from '@type/Product.types';
 
-type InitialStateType = {
-  basket: Record<string, ProductBasketCardType>;
+type Basket = {
+  id: ProductType['$id'];
   count: number;
+  price: number;
+};
+
+type BasketState = EntityState<Basket, Basket['id']> & {
+  totalCount: number;
   totalPrice: number;
 };
 
-const initialState: InitialStateType = {
-  basket: {},
-  count: 0,
-  totalPrice: 0,
-};
+export const basketAdapter = createEntityAdapter<Basket>();
 
-export const basketAdapter = createEntityAdapter<ProductBasketCardType>();
+const initialState: BasketState = basketAdapter.getInitialState({
+  totalCount: 0,
+  totalPrice: 0,
+});
 
 const basketSlice = createSlice({
   name: 'basket',
-  initialState: basketAdapter.getInitialState<InitialStateType>(initialState),
+  initialState,
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(BasketActions.addProduct.fulfilled, (state, action) => {
-        const currentElement = basketAdapter.getSelectors().selectById(state, action.payload.id);
+      .addCase(BasketActions.addProduct, (state, action) => {
+        const currentElement = basketAdapter
+          .getSelectors()
+          .selectById(state, action.payload.productId);
         basketAdapter.upsertOne(state, {
-          ...action.payload,
-          countProduct: (currentElement?.countProduct || 0) + 1,
+          id: action.payload.productId,
+          price: action.payload.price,
+          count: (currentElement?.count || 0) + 1,
         });
-        // state.totalPrice = parseFloat((state.totalPrice + price).toFixed(2));
-        // state.count += 1;
+        state.totalPrice = parseFloat((state.totalPrice + action.payload.price).toFixed(2));
+        state.totalCount += 1;
       })
-      .addCase(BasketActions.deleteProduct.fulfilled, (state, action) => {
-        const { id } = action.payload;
-
-        const currentElement = basketAdapter.getSelectors().selectById(state, id);
+      .addCase(BasketActions.deleteProduct, (state, action) => {
+        const id = action.payload.productId;
+        const currentElement = basketAdapter
+          .getSelectors()
+          .selectById(state, id);
         if (currentElement) {
-          if (currentElement.countProduct > 1) {
+          if (currentElement.count > 1) {
             basketAdapter.updateOne(state, {
               id,
-              changes: { countProduct: currentElement.countProduct - 1 },
+              changes: { count: currentElement.count - 1 },
             });
           } else {
             basketAdapter.removeOne(state, id);
           }
         }
-        // state.totalPrice = parseFloat((state.totalPrice - price).toFixed(2));
-        // state.count = Math.max(0, state.count - 1);
-      });
+        state.totalPrice = parseFloat((state.totalPrice -  action.payload.price).toFixed(2));
+        state.totalCount = Math.max(0, state.totalCount - 1);
+      })
   },
 });
 

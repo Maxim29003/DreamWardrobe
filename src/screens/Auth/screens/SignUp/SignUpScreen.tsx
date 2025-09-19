@@ -1,5 +1,5 @@
 import { KeyboardAvoidingView, ScrollView, Text } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import MainContainer from '@layouts/MainContainer/MainContainer';
 import { isIPhone } from '@utils/platform';
 import Spacer from '@components/Spacer/Spacer';
@@ -7,6 +7,7 @@ import { typography } from '@styles/typography';
 import SignUpForm from './components/SignUpForm/SignUpForm';
 
 const SignUpScreen = () => {
+
   return (
     <MainContainer>
       <KeyboardAvoidingView

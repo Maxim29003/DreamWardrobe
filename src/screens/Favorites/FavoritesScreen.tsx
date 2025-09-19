@@ -11,16 +11,20 @@ import ProductCard from '@components/ProductCard/ProductCard';
 import Spacer from '@components/Spacer/Spacer';
 import { useAppSelector } from '@hooks/useAppSelector';
 import { createSelector } from '@reduxjs/toolkit';
-import { ProductCardType } from '@type/ProductCardType';
+import { ProductCardType } from '@type/ProductCard.type';
+import FavoritesSelectors from '@store/selectors/favorites.selectors';
 
 const FavoritesScreen = () => {
-  const favorites = useAppSelector(
-    createSelector([state => state.favorites.favorites], favorites =>
-      Object.values(favorites).filter(
-        (item): item is ProductCardType => item !== undefined,
-      ),
-    ),
-  );
+  const favoritesProductIds = useAppSelector(FavoritesSelectors.favoritesProductsIds);
+
+     useEffect(()=>{
+        console.log("FavoritesScreen mount")
+        return ()=> console.log("FavoritesScreen unmount")
+      }, [])
+    
+       useEffect(()=>{
+        console.log("FavoritesScreen update")
+      })
 
   return (
     <MainContainer>
@@ -33,9 +37,9 @@ const FavoritesScreen = () => {
         />
       </Header>
       <GridLayout
-        data={favorites}
-        keyExtractor={({ id }) => id}
-        renderItem={product => <ProductCard productCard={product} />}
+        data={favoritesProductIds}
+        keyExtractor={( id ) => id.toString()}
+        renderItem={item => <ProductCard id={item} />}
         columnGap={20}
         numColumns={calculateNumColumns()}
         rowGap={20}

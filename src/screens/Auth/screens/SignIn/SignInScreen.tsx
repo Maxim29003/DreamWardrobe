@@ -17,7 +17,7 @@ const SignInScreen = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <Spacer height={94} />
           <Text style={[typography.mainTitle, { textAlign: 'center' }]}>
-            Sign Up
+            Sign In
           </Text>
           <Spacer height={100} />
           <SignInForm />

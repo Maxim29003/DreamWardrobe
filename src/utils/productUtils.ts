@@ -1,5 +1,5 @@
-import { ProductType } from '@type/ProductType';
-import { ProductCardType } from '@type/ProductCardType';
+import { ProductType } from '@type/Product.types';
+import { ProductCardType } from '@type/ProductCard.type';
 import { ProductBasketCardType } from '@type/ProductBasketCardType';
 
 export function toProductCard(product: ProductType): ProductCardType {

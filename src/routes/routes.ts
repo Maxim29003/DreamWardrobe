@@ -9,34 +9,32 @@ import HomeTabs from '@layouts/HomeTabs/HomeTabs';
 
 export type ScreenProps = Parameters<(typeof Stack)['Screen']>[number];
 
-export const RoutesScreens: (ScreenProps)[] = [
+export const AuthScreens: ScreenProps[] = [
   {
     name: SCREENS.AUTH_INIT,
     component: AuthInitScreen,
   },
-
   {
     name: SCREENS.SIGN_IN,
     component: SignInScreen,
   },
-
   {
     name: SCREENS.SIGN_UP,
     component: SignUpScreen,
   },
+];
 
+export const PrivateScreens: ScreenProps[] = [
+  {
+    name: SCREENS.HOME_TABS,
+    component: HomeTabs,
+  },
   {
     name: SCREENS.PRODUCT_DETAIL,
     component: ProductDetailScreen,
   },
-
   {
     name: SCREENS.PROFILE,
     component: Profile,
-  },
-
-  {
-    name: SCREENS.HOME_TABS,
-    component: HomeTabs,
   },
 ];

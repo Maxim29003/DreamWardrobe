@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity } from 'react-native';
+import { Text } from 'react-native';
 import React, { useEffect } from 'react';
 import MainContainer from '@layouts/MainContainer/MainContainer';
 import Header from '@layouts/Header/Header';
@@ -10,21 +10,35 @@ import { calculateNumColumns, HEIGHT, WIDTH } from '@utils/normalizer';
 import ProductCard from '@components/ProductCard/ProductCard';
 import { typography } from '@styles/typography';
 import Spacer from '@components/Spacer/Spacer';
-import { fetchProducts } from '@store/productSlice';
 import { useAppDispatch } from '@hooks/useAppDispatch';
 import { useAppSelector } from '@hooks/useAppSelector';
-import useAppNavigation from '@hooks/useAppNavigation';
-import { SCREENS } from '@routes/navigations.types';
-import { toProductCard } from '@utils/productUtils';
+import ProductsActions from '@store/actions/products.actions';
+import ProductsSelectors from '@store/selectors/products.selectors';
 
 const HomeScreen = () => {
+  
   const dispatch = useAppDispatch();
-  const products = useAppSelector(state => state.products.products);
-  const navigation = useAppNavigation();
+  const productsIds = useAppSelector(ProductsSelectors.ids);
+  const products = useAppSelector((state)=>state.products);
 
   useEffect(() => {
-    dispatch(fetchProducts());
+    dispatch(ProductsActions.fetchProducts());
   }, [dispatch]);
+
+  useEffect(()=>{
+    console.log("HomeScreen mount")
+    return ()=> console.log("HomeScreen unmount")
+  }, [])
+
+   useEffect(()=>{
+    console.log("HomeScreen productsIds", productsIds)
+    console.log(products)
+  }, [productsIds, products])
+
+
+   useEffect(()=>{
+    console.log("HomeScreen update")
+  })
 
   return (
     <MainContainer>
@@ -36,18 +50,9 @@ const HomeScreen = () => {
         />
       </Header>
       <GridLayout
-        data={products}
-        keyExtractor={({ $id }) => $id}
-        renderItem={product => (
-          <TouchableOpacity
-            style={{ flex: 1 }}
-            onPress={() =>
-              navigation.navigate(SCREENS.PRODUCT_DETAIL, { product: product })
-            }
-          >
-            <ProductCard productCard={toProductCard(product)} />
-          </TouchableOpacity>
-        )}
+        data={productsIds}
+        keyExtractor={id => id.toString()}
+        renderItem={id => <ProductCard id={id} />}
         columnGap={20}
         numColumns={calculateNumColumns()}
         rowGap={20}
@@ -69,3 +74,4 @@ const HomeScreen = () => {
 };
 
 export default HomeScreen;
+

@@ -1,4 +1,4 @@
-import { StyleProp, TextInput, TextStyle } from 'react-native';
+import { StyleProp, TextInput, TextInputFocusEvent, TextStyle } from 'react-native';
 import React from 'react';
 import { isIPhone } from '@utils/platform';
 import { styles } from './styles';
@@ -10,6 +10,7 @@ type InputBaseProp = {
   placeholder?: string | undefined;
   onChangeText?: ((text: string) => void) | undefined;
   style?: StyleProp<TextStyle> | undefined;
+    onBlur?: ((e: TextInputFocusEvent) => void) | undefined;
 };
 
 const InputBase = ({
@@ -18,15 +19,18 @@ const InputBase = ({
   onChangeText,
   placeholder,
   style,
+  onBlur,
 }: InputBaseProp) => {
   return (
     <TextInput
       secureTextEntry={type === 'password'}
+      autoCapitalize="none" 
       value={value}
       placeholder={placeholder}
       onChangeText={onChangeText}
       style={[styles.inputStyle, isIPhone && styles.inputIPhone, style]}
       placeholderTextColor={FONT_COLOR_SECONDARY}
+      onBlur ={onBlur}
     />
   );
 };

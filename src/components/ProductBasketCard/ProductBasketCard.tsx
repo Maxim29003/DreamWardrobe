@@ -1,25 +1,37 @@
 import { Image, Text, View } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { typography } from '@styles/typography';
 import ColorLabel from '@ui/ColorLabel/ColorLabel';
 import SizeLabel from '@ui/SizeLabel/SizeLabel';
 import DeleteButton from '@ui/DeleteButton/DeleteButton';
 import { styles } from './styles';
 import { useAppDispatch } from '@hooks/useAppDispatch';
-import { ProductBasketCardType } from '@type/ProductBasketCardType';
 import Spacer from '@components/Spacer/Spacer';
 import BasketActions from '@store/actions/basket.actions.ts';
 import { useAppSelector } from '@hooks/useAppSelector.ts';
 import BasketSelectors from '@store/selectors/basket.selectors.ts';
+import ProductsSelectors from '@store/selectors/products.selectors';
+import { ProductType } from '@type/Product.types';
 
 type ProductBasketCardProps = {
-  id: ProductBasketCardType['id'];
+  id: ProductType['id'];
 };
 
 const ProductBasketCard = ({ id }: ProductBasketCardProps) => {
   const dispatch = useAppDispatch();
 
-  const product = useAppSelector(BasketSelectors.selectById(id));
+  const product = useAppSelector(ProductsSelectors.selectById(id));
+  const count = useAppSelector(BasketSelectors.count(id))
+
+   useEffect(()=>{
+        console.log("ProductBasketCard mount", product.price)
+        return ()=> console.log("ProductBasketCard unmount ", product.price)
+      }, [])
+    
+       useEffect(()=>{
+        console.log("ProductBasketCard update", product.price)
+      })
+  
 
   return (
     <View style={styles.container}>
@@ -41,17 +53,17 @@ const ProductBasketCard = ({ id }: ProductBasketCardProps) => {
           onPress={() => {
             if (product) {
               console.log(product);
-              dispatch(BasketActions.deleteProduct(product));
+              dispatch(BasketActions.deleteProduct({productId: id, price: product.price}));
             }
           }}
         />
         <Spacer height={15} />
         <Text style={typography.smallTitleSecondary}>
-          {product.countProduct}
+          {count}
         </Text>
       </View>
     </View>
   );
 };
 
-export default ProductBasketCard;
+export default React.memo(ProductBasketCard);

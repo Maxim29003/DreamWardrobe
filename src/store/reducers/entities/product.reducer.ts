@@ -1,45 +1,39 @@
-import { database } from '@api/appwrite';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { ProductType } from '@type/ProductType';
-import { DREAM_WARDROBE_DB, PRODUCTS } from '../../env';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { ProductType } from '@type/Product.types';
+import ProductsActions from '@store/actions/products.actions';
 
 type initialStateType = {
-  products: ProductType[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
 };
 
-const initialState: initialStateType = {
-  products: [],
+export const productsAdapter = createEntityAdapter({
+  selectId: (product: ProductType) => product.$id
+});
+
+const initialState = productsAdapter.getInitialState<initialStateType>({
   status: 'idle',
   error: null,
-};
-
-export const fetchProducts = createAsyncThunk(
-  'products/fetchProducts',
-  async () => {
-    const response = await database.listDocuments(DREAM_WARDROBE_DB, PRODUCTS);
-    return response;
-  },
-);
+})
 
 const productReducer = createSlice({
   name: 'products',
   initialState: initialState,
   reducers: {},
   extraReducers: builder => {
-    builder.addCase(fetchProducts.pending, (state, action) => {
+    builder.addCase(ProductsActions.fetchProducts.pending, (state, action) => {
       state.status = 'loading';
       state.error = null;
     });
 
-    builder.addCase(fetchProducts.fulfilled, (state, action) => {
+    builder.addCase(ProductsActions.fetchProducts.fulfilled, (state, action) => {
       const documents = action.payload.documents as ProductType[];
-      state.products = documents;
+      productsAdapter.setAll(state, documents)
+     
       state.status = 'succeeded';
     });
 
-    builder.addCase(fetchProducts.rejected, (state, action) => {
+    builder.addCase(ProductsActions.fetchProducts.rejected, (state, action) => {
       state.status = 'failed';
       state.error = 'Ошибка загрузки';
     });

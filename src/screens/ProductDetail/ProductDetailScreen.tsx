@@ -16,11 +16,14 @@ import { styles } from './styles';
 import useAppRoute from '@hooks/useAppRoute';
 import { useAppDispatch } from '@hooks/useAppDispatch';
 import BasketActions from '@store/actions/basket.actions.ts';
+import { useAppSelector } from '@hooks/useAppSelector';
+import ProductsSelectors from '@store/selectors/products.selectors';
 
 const ProductDetailScreen = () => {
   const route = useAppRoute();
-  const product = route.params?.product;
+  const productId = route.params?.productId
   const dispatch = useAppDispatch();
+  const product = useAppSelector(ProductsSelectors.selectById(productId!))
 
   return (
     <MainContainer>
@@ -97,7 +100,7 @@ const ProductDetailScreen = () => {
           onPress={() => {
             if (product) {
               console.log(product);
-              dispatch(BasketActions.addProduct(product));
+              dispatch(BasketActions.addProduct({productId: productId!, price: product.price}));
             }
           }}
         />

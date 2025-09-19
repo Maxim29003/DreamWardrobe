@@ -14,12 +14,24 @@ import { styles } from './styles';
 import { useAppSelector } from '@hooks/useAppSelector';
 import { ProductBasketCardType } from '@type/ProductBasketCardType';
 import { createSelector } from '@reduxjs/toolkit';
-import BasketSelectors, { basketProductIdsSelector } from '@store/selectors/basket.selectors.ts';
+import BasketSelectors  from '@store/selectors/basket.selectors.ts';
 
 const BasketScreen = () => {
-  const { totalPrice, count } = useAppSelector(state => state.basket);
+  
 
   const basket = useAppSelector(BasketSelectors.ids);
+
+  const totalCount = useAppSelector(BasketSelectors.totalCount)
+  const  totalPrice = useAppSelector(BasketSelectors.totalPrice)
+
+  useEffect(()=>{
+          console.log("BasketScreen mount")
+          return ()=> console.log("BasketScreen unmount")
+        }, [])
+      
+         useEffect(()=>{
+          console.log("BasketScreen update")
+        })
 
   return (
     <MainContainer>
@@ -42,7 +54,7 @@ const BasketScreen = () => {
           heightItem={125}
           widthScreen={WIDTH < 560 ? WIDTH : 560}
           ListHeaderComponent={<Spacer height={20} />}
-          ListFooterComponent={renderFooter(totalPrice, count)}
+          ListFooterComponent={renderFooter(totalPrice, totalCount)}
         />
       </View>
     </MainContainer>

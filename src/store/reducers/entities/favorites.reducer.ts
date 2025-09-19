@@ -1,36 +1,47 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ProductCardType } from '@type/ProductCardType';
+import {
+  createEntityAdapter,
+  createSlice,
+  PayloadAction,
+} from '@reduxjs/toolkit';
+import FavoritesActions, {
+  ToggleLikePayloadType,
+} from '@store/actions/favorites.actions';
+import { ProductType } from '@type/Product.types';
 
-type initialStateType = {
-  favorites: Record<string, ProductCardType | undefined>;
+type FavoritesType = {
+  id: ProductType['$id'];
+  isLike: boolean;
 };
 
-const initialState: initialStateType = {
-  favorites: {},
-};
+export const favoritesAdapter = createEntityAdapter<FavoritesType>();
 
 const favoritesReducer = createSlice({
   name: 'favorites',
-  initialState,
-  reducers: {
-    toggleLike: (state, action: PayloadAction<ProductCardType>) => {
-      const id = action.payload.id;
-
-      if (state.favorites[id]?.like) {
-        delete state.favorites[id];
-      } else {
-        state.favorites[id] = {
-          ...action.payload,
-          like: true,
-        };
-      }
-    },
-  },
+  initialState: favoritesAdapter.getInitialState(),
+  reducers: {},
   extraReducers: builder => {
-
+    builder.addCase(
+      FavoritesActions.toggleLike,
+      (state, action: PayloadAction<ToggleLikePayloadType>) => {
+        const id = action.payload.productId;
+        const currentElement = favoritesAdapter
+          .getSelectors()
+          .selectById(state, id);
+        if (currentElement) {
+          favoritesAdapter.upsertOne(state, {
+            id,
+            isLike: currentElement.isLike!,
+          });
+        } else {
+          favoritesAdapter.upsertOne(state, {
+            id,
+            isLike: true,
+          });
+        }
+      },
+    );
     return builder;
   },
 });
 
-export const { toggleLike } = favoritesReducer.actions;
 export default favoritesReducer.reducer;

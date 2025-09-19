@@ -1,9 +1,9 @@
 import { SCREENS } from './navigations.types';
-import { ProductType } from '@type/ProductType';
+import { ProductType } from '@type/Product.types';
 
 export type StackParamList = {
   [SCREENS.HOME]: undefined;
-  [SCREENS.PRODUCT_DETAIL]: { product: ProductType | undefined };
+  [SCREENS.PRODUCT_DETAIL]: { productId: ProductType["$id"] | undefined };
   [SCREENS.BASKET]: undefined;
   [SCREENS.FAVORITES]: undefined;
   [SCREENS.SIGN_UP]: undefined;

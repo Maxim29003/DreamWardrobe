@@ -30,13 +30,7 @@ const AuthInitScreen = () => {
         <Text style={typography.smallTitle}>Sign Up</Text>
       </Button>
 
-      <Button
-        onPress={() => {
-          navigation.navigate(SCREENS.HOME_TABS);
-        }}
-      >
-        <Text style={typography.smallTitle}>Home</Text>
-      </Button>
+
     </MainContainer>
   );
 };
