@@ -2,7 +2,7 @@ import { StyleProp, TextInput, TextInputFocusEvent, TextStyle } from 'react-nati
 import React from 'react';
 import { isIPhone } from '@utils/platform';
 import { styles } from './styles';
-import { FONT_COLOR_SECONDARY } from '@styles/colors';
+import { Colors } from '@styles/colors';
 
 type InputBaseProp = {
   type?: 'password';
@@ -29,7 +29,7 @@ const InputBase = ({
       placeholder={placeholder}
       onChangeText={onChangeText}
       style={[styles.inputStyle, isIPhone && styles.inputIPhone, style]}
-      placeholderTextColor={FONT_COLOR_SECONDARY}
+      placeholderTextColor={Colors.TEXT_INPUT}
       onBlur ={onBlur}
     />
   );

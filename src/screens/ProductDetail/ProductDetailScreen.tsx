@@ -1,39 +1,31 @@
-import { Image, ScrollView, Text, View } from 'react-native';
+import { Image, ScrollView, View } from 'react-native';
 import React from 'react';
 import MainContainer from '@layouts/MainContainer/MainContainer';
-import BackButton from '@layouts/Header/components/BackButton/BackButton';
 import Header from '@layouts/Header/Header';
-import Avatar from '@ui/Avatar/Avatar';
-import { colors, pinkImage, sizes } from '@mocks/testImages';
-import { typography } from '@styles/typography';
+import { colors, sizes } from '@mocks/testImages';
 import Spacer from '@components/Spacer/Spacer';
 import Picker from '@components/Picker/Picker';
 import SizeLabel from '@ui/SizeLabel/SizeLabel';
-import { PRIMARY } from '@styles/colors';
+import { Colors } from '@styles/colors';
 import ColorLabel from '@ui/ColorLabel/ColorLabel';
-import PrimaryButton from '@ui/PrimaryButton/PrimaryButton';
+import UIButton from '@ui/Button/UIButton';
 import { styles } from './styles';
 import useAppRoute from '@hooks/useAppRoute';
 import { useAppDispatch } from '@hooks/useAppDispatch';
 import BasketActions from '@store/actions/basket.actions.ts';
 import { useAppSelector } from '@hooks/useAppSelector';
 import ProductsSelectors from '@store/selectors/products.selectors';
+import UIText from '@ui/Text/UIText';
 
 const ProductDetailScreen = () => {
   const route = useAppRoute();
-  const productId = route.params?.productId
+  const productId = route.params?.productId;
   const dispatch = useAppDispatch();
-  const product = useAppSelector(ProductsSelectors.selectById(productId!))
+  const product = useAppSelector(ProductsSelectors.selectById(productId!));
 
   return (
     <MainContainer>
-      <Header>
-        <BackButton />
-        <Avatar
-          size={44}
-          uri="https://avatars.mds.yandex.net/i?id=451c2720edb5fdad00d8f320ba5d50980af55381-9065873-images-thumbs&n=13"
-        />
-      </Header>
+      <Header variant="back-avatar" />
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
@@ -43,13 +35,17 @@ const ProductDetailScreen = () => {
 
         <Spacer height={14} />
         <View style={styles.row}>
-          <Text style={typography.mediumTitle}>{product?.name}</Text>
-          <Text style={[typography.mediumTitle, styles.priceText]}>
+          <UIText variant="subtitle" color={Colors.TEXT_SECONDARY}>
+            {product?.name}
+          </UIText>
+          <UIText variant="bodySemiBold" color={Colors.TEXT_PRIMARY}>
             {product?.price}
-          </Text>
+          </UIText>
         </View>
         <Spacer height={24} />
-        <Text style={typography.mediumTitle}>{'Size'}</Text>
+        <UIText variant="subtitle" color={Colors.TEXT_SECONDARY}>
+          {'Size'}
+        </UIText>
         <Spacer height={10} />
         <Picker
           keyExtractor={item => item.id}
@@ -57,22 +53,20 @@ const ProductDetailScreen = () => {
           horizontal={true}
           renderItem={(item, selectedValue) => (
             <View style={styles.sizeRow}>
-              <SizeLabel sizeDimension={36}>
-                <Text
-                  style={[
-                    typography.smallTitle,
-                    item === selectedValue && { color: PRIMARY },
-                  ]}
-                >
-                  {item.label}
-                </Text>
-              </SizeLabel>
+              <SizeLabel
+                sizeDimension={36}
+                sizeValue={item.label}
+                isSelected={item === selectedValue}
+              />
               <Spacer width={12} />
             </View>
           )}
         />
         <Spacer height={35} />
-        <Text style={typography.mediumTitle}>{'Colors'}</Text>
+        <UIText variant="subtitle" color={Colors.TEXT_SECONDARY}>
+          {'Colors'}
+        </UIText>
+
         <Spacer height={10} />
 
         <Picker
@@ -95,12 +89,17 @@ const ProductDetailScreen = () => {
           )}
         />
         <Spacer height={31} />
-        <PrimaryButton
+        <UIButton
           text="Add to Cart"
           onPress={() => {
             if (product) {
               console.log(product);
-              dispatch(BasketActions.addProduct({productId: productId!, price: product.price}));
+              dispatch(
+                BasketActions.addProduct({
+                  productId: productId!,
+                  price: product.price,
+                }),
+              );
             }
           }}
         />

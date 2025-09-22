@@ -10,7 +10,7 @@ import {
   HomeIcon,
   ProfileIcon,
 } from '@constants/Icons/Icons';
-import { TAB_BAR_ICON_COLOR } from '@styles/colors';
+import { Colors } from '@styles/colors';
 
 export type TabScreenProps = Parameters<(typeof Tab)['Screen']>[number];
 
@@ -21,7 +21,7 @@ export const TabsScreens: TabScreenProps[] = [
     options: {
       tabBarIcon: ({ size }) => {
         return (
-          <HomeIcon width={size} height={size} fill={TAB_BAR_ICON_COLOR} />
+          <HomeIcon width={size} height={size} fill={Colors.ICON_SECONDARY} />
         );
       },
     },
@@ -31,13 +31,13 @@ export const TabsScreens: TabScreenProps[] = [
     name: SCREENS.FAVORITES,
     component: FavoritesScreen,
     options: {
-      tabBarStyle:{display: 'none'},
+      tabBarStyle: { display: 'none' },
       tabBarIcon: ({ size }) => {
         return (
           <HeartOutlineIcon
             width={size}
             height={size}
-            fill={TAB_BAR_ICON_COLOR}
+            fill={Colors.ICON_SECONDARY}
           />
         );
       },
@@ -48,10 +48,10 @@ export const TabsScreens: TabScreenProps[] = [
     name: SCREENS.BASKET,
     component: BasketScreen,
     options: {
-      tabBarStyle:{display: 'none'},
+      tabBarStyle: { display: 'none' },
       tabBarIcon: ({ size }) => {
         return (
-          <BasketIcon width={size} height={size} fill={TAB_BAR_ICON_COLOR} />
+          <BasketIcon width={size} height={size} fill={Colors.ICON_SECONDARY} />
         );
       },
     },
@@ -61,10 +61,14 @@ export const TabsScreens: TabScreenProps[] = [
     name: SCREENS.PROFILE,
     component: Profile,
     options: {
-      tabBarStyle:{display: 'none'},
+      tabBarStyle: { display: 'none' },
       tabBarIcon: ({ size }) => {
         return (
-          <ProfileIcon width={size} height={size} fill={TAB_BAR_ICON_COLOR} />
+          <ProfileIcon
+            width={size}
+            height={size}
+            fill={Colors.ICON_SECONDARY}
+          />
         );
       },
     },

@@ -1,16 +1,16 @@
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import React from 'react';
 import MainContainer from '@layouts/MainContainer/MainContainer';
 import Header from '@layouts/Header/Header';
-import BackButton from '@layouts/Header/components/BackButton/BackButton';
-import { typography } from '@styles/typography';
-import Avatar from '@ui/Avatar/Avatar';
+import Avatar from '@components/Avatar/Avatar';
 import Spacer from '@components/Spacer/Spacer';
-import PrimaryButton from '@ui/PrimaryButton/PrimaryButton';
+import UIButton from '@ui/Button/UIButton';
 import { useAppDispatch } from '@hooks/useAppDispatch';
 import UserActions from '@store/actions/user.actions';
 import { useAppSelector } from '@hooks/useAppSelector';
 import UserSelectors from '@store/selectors/user.selectors';
+import UIText from '@ui/Text/UIText';
+import { Colors } from '@styles/colors';
 
 
 const Profile = () => {
@@ -18,12 +18,7 @@ const Profile = () => {
   const user = useAppSelector(UserSelectors.user)[0];
   return (
     <MainContainer>
-      <Header>
-        <BackButton />
-        <Text style={[typography.mainTitle, { flex: 1, textAlign: 'center' }]}>
-          My Profile
-        </Text>
-      </Header>
+      <Header variant="back-title" title='My Profile'/>
       <View style={{ alignItems: 'center' }}>
         <Spacer height={20} />
         <Avatar
@@ -32,11 +27,11 @@ const Profile = () => {
         />
         <Spacer height={69} />
       </View>
-      <Text style={typography.smallTitleSecondary}>Name: {user.name}</Text>
+      <UIText variant="bodyMedium" color={Colors.TEXT_TERTIARY}>Name: {user.name}</UIText>
       <Spacer height={10} />
-      <Text style={typography.smallTitleSecondary}>Email: {user.email}</Text>
+      <UIText variant="bodyMedium" color={Colors.TEXT_TERTIARY}>Email: {user.email}</UIText>
       <Spacer height={55} />
-      <PrimaryButton
+      <UIButton
         text="Logout"
         onPress={() => dispatch(UserActions.logout(user.sessionId))}
       />

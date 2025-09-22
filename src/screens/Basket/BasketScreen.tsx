@@ -2,61 +2,53 @@ import { Text, View } from 'react-native';
 import React, { useEffect } from 'react';
 import MainContainer from '@layouts/MainContainer/MainContainer';
 import Header from '@layouts/Header/Header';
-import BackButton from '@layouts/Header/components/BackButton/BackButton';
+
 import { typography } from '@styles/typography';
-import Avatar from '@ui/Avatar/Avatar';
+
 import ProductBasketCard from '@components/ProductBasketCard/ProductBasketCard';
 import { WIDTH } from '@utils/normalizer';
 import { GridLayout } from '@layouts/GridLayout/GridLayout';
 import Spacer from '@components/Spacer/Spacer';
-import PrimaryButton from '@ui/PrimaryButton/PrimaryButton';
+
 import { styles } from './styles';
 import { useAppSelector } from '@hooks/useAppSelector';
-import { ProductBasketCardType } from '@type/ProductBasketCardType';
-import { createSelector } from '@reduxjs/toolkit';
-import BasketSelectors  from '@store/selectors/basket.selectors.ts';
+import BasketSelectors from '@store/selectors/basket.selectors.ts';
+import UIButton from '@ui/Button/UIButton';
+import UIText from '@ui/Text/UIText';
+import { Colors } from '@styles/colors';
 
 const BasketScreen = () => {
-  
-
   const basket = useAppSelector(BasketSelectors.ids);
 
-  const totalCount = useAppSelector(BasketSelectors.totalCount)
-  const  totalPrice = useAppSelector(BasketSelectors.totalPrice)
+  const totalCount = useAppSelector(BasketSelectors.totalCount);
+  const totalPrice = useAppSelector(BasketSelectors.totalPrice);
 
-  useEffect(()=>{
-          console.log("BasketScreen mount")
-          return ()=> console.log("BasketScreen unmount")
-        }, [])
-      
-         useEffect(()=>{
-          console.log("BasketScreen update")
-        })
+  useEffect(() => {
+    console.log('BasketScreen mount');
+    return () => console.log('BasketScreen unmount');
+  }, []);
+
+  useEffect(() => {
+    console.log('BasketScreen update');
+  });
 
   return (
     <MainContainer>
-      <Header>
-        <BackButton />
-        <Text style={typography.mainTitle}>My Basket</Text>
-        <Avatar
-          size={44}
-          uri="https://avatars.mds.yandex.net/i?id=451c2720edb5fdad00d8f320ba5d50980af55381-9065873-images-thumbs&n=13"
-        />
-      </Header>
-      <View style={styles.centeredContainer}>
+      <Header variant="back-title-avatar" title="My Basket" />
+      
         <GridLayout
           data={basket}
-          keyExtractor={(id) => id.toString()}
+          keyExtractor={id => id.toString()}
           renderItem={item => <ProductBasketCard id={item} />}
           columnGap={20}
           numColumns={1}
           parentPaddingHorizontal={30}
           heightItem={125}
-          widthScreen={WIDTH < 560 ? WIDTH : 560}
+          widthScreen={WIDTH}
           ListHeaderComponent={<Spacer height={20} />}
           ListFooterComponent={renderFooter(totalPrice, totalCount)}
         />
-      </View>
+      
     </MainContainer>
   );
 };
@@ -64,18 +56,14 @@ const BasketScreen = () => {
 const renderFooter = (totalPrice: number, count: number) => (
   <>
     <View style={styles.footerRow}>
-      <Text style={typography.smallTitleSecondary}>Total:</Text>
-      <Text style={[typography.smallTitleSecondary, styles.boldText]}>
-        {totalPrice}
-      </Text>
+      <UIText variant="bodyMedium" color={Colors.TEXT_TERTIARY}>Total:</UIText>
+      <UIText variant="bodySemiBold" color={Colors.TEXT_TERTIARY}>{totalPrice}</UIText>
     </View>
     <Spacer height={15} />
 
     <View style={styles.footerRow}>
-      <Text style={typography.smallTitleSecondary}>Count:</Text>
-      <Text style={[typography.smallTitleSecondary, styles.boldText]}>
-        {count}
-      </Text>
+      <UIText variant="bodyMedium" color={Colors.TEXT_TERTIARY}>Count:</UIText>
+      <UIText variant="bodySemiBold" color={Colors.TEXT_TERTIARY}>{count}</UIText>
     </View>
     <Spacer height={15} />
 
@@ -83,12 +71,12 @@ const renderFooter = (totalPrice: number, count: number) => (
     <Spacer height={15} />
 
     <View style={styles.footerRow}>
-      <Text style={typography.smallTitleSecondary}>Grand Total:</Text>
-      <Text style={[typography.smallTitle, styles.boldText]}>{totalPrice}</Text>
+      <UIText variant="bodyMedium" color={Colors.TEXT_TERTIARY}>Grand Total:</UIText>
+      <UIText variant="bodySemiBold">{totalPrice}</UIText>
     </View>
     <Spacer height={25} />
 
-    <PrimaryButton text="Checkout" />
+    <UIButton text="Checkout" />
     <Spacer height={40} />
   </>
 );

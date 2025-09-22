@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { TabsScreens } from '@routes/tabRoutes';
-import { LINEAR_GRADIENT_END } from '@styles/colors';
+import { Colors, LINEAR_GRADIENT_END } from '@styles/colors';
 
 export const Tab = createBottomTabNavigator();
 
@@ -16,9 +16,10 @@ const HomeTabs = () => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: LINEAR_GRADIENT_END,
+          backgroundColor: Colors.BACKGROUND_GRADIENT_END,
           borderTopWidth: 0,
-          elevation:0,
+          elevation: 0,
+          height: 80,
         },
       }}
     >

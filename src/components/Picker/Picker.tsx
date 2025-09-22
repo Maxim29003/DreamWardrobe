@@ -1,5 +1,5 @@
 import { FlatList, FlatListProps, TouchableOpacity } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 type PickerProps<T> = {
   value?: T;
@@ -15,16 +15,7 @@ const Picker = <T,>({
   onChange,
   ...props
 }: PickerProps<T>) => {
-  const [selectedValue, setSelectedValue] = useState<T | undefined>(value);
-
-  useEffect(() => {
-    if (value === undefined && data.length > 0) {
-      setSelectedValue(data[0]);
-      if (onChange) {
-        onChange(data[0]);
-      }
-    }
-  }, []);
+  const [selectedValue, setSelectedValue] = useState<T | undefined>(value === undefined && data.length > 0 ? data[0] : value);
 
   const handleSelect = (item: T) => {
     setSelectedValue(item);

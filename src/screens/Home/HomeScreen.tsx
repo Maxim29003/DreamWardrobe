@@ -1,19 +1,19 @@
-import { Text } from 'react-native';
 import React, { useEffect } from 'react';
 import MainContainer from '@layouts/MainContainer/MainContainer';
 import Header from '@layouts/Header/Header';
-import Avatar from '@ui/Avatar/Avatar';
+import Avatar from '@components/Avatar/Avatar';
 import HeaderMainLabel from '@layouts/Header/components/HeaderMainLabel/HeaderMainLabel';
 import SearchInput from '@components/SearchInput/SearchInput';
 import { GridLayout } from '@layouts/GridLayout/GridLayout';
 import { calculateNumColumns, HEIGHT, WIDTH } from '@utils/normalizer';
 import ProductCard from '@components/ProductCard/ProductCard';
-import { typography } from '@styles/typography';
 import Spacer from '@components/Spacer/Spacer';
 import { useAppDispatch } from '@hooks/useAppDispatch';
 import { useAppSelector } from '@hooks/useAppSelector';
 import ProductsActions from '@store/actions/products.actions';
 import ProductsSelectors from '@store/selectors/products.selectors';
+import UIText from '@ui/Text/UIText';
+import { Colors } from '@styles/colors';
 
 const HomeScreen = () => {
   
@@ -41,14 +41,8 @@ const HomeScreen = () => {
   })
 
   return (
-    <MainContainer>
-      <Header>
-        <HeaderMainLabel />
-        <Avatar
-          size={44}
-          uri="https://avatars.mds.yandex.net/i?id=451c2720edb5fdad00d8f320ba5d50980af55381-9065873-images-thumbs&n=13"
-        />
-      </Header>
+    <MainContainer noBottomPadding>
+      <Header variant="label-avatar"/>
       <GridLayout
         data={productsIds}
         keyExtractor={id => id.toString()}
@@ -62,7 +56,7 @@ const HomeScreen = () => {
         ListHeaderComponent={
           <>
             <Spacer height={20} />
-            <Text style={typography.mainTitle}>Match Your Style</Text>
+            <UIText variant="heading" color={Colors.TEXT_PRIMARY}>Match Your Style</UIText>
             <Spacer height={10} />
             <SearchInput />
             <Spacer height={10} />

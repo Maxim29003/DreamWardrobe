@@ -3,7 +3,6 @@ import { useAppSelector } from '@hooks/useAppSelector';
 import UserSelectors from '@store/selectors/user.selectors';
 import { AuthScreens, PrivateScreens } from './routes';
 
-
 function RootNavigator() {
   const user = useAppSelector(UserSelectors.user)[0];
   const screensToRender = user?.sessionId ? PrivateScreens : AuthScreens;
@@ -13,7 +12,7 @@ function RootNavigator() {
   return (
     <Stack.Navigator
       initialRouteName={screensToRender[0].name} 
-      screenOptions={{ headerShown: false }}
+       screenOptions={{ headerShown: false }}
     >
       {screensToRender.map(screen => (
         <Stack.Screen key={screen.name} {...screen} />

@@ -1,13 +1,12 @@
-import { WHITE } from "@styles/colors";
+import { Colors } from "@styles/colors";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   button: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
-    backgroundColor: WHITE,
+    height: 66,
+    backgroundColor: Colors.PRIMARY,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 12,
   },
-});
+})

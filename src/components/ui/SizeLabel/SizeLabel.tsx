@@ -1,25 +1,36 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React, { ReactNode } from 'react';
-import { WHITE } from '@styles/colors';
+import { View } from 'react-native';
+import React from 'react';
+import { Colors } from '@styles/colors';
+import UIText from '@ui/Text/UIText';
 
-type SizeLabelProp = {
+type SizeLabelProps = {
   sizeDimension: number;
-  children: ReactNode;
+  sizeValue: string;
+  isSelected?: boolean;
 };
 
-const SizeLabel = ({ sizeDimension, children }: SizeLabelProp) => {
+const SizeLabel = ({
+  sizeDimension,
+  isSelected = false,
+  sizeValue,
+}: SizeLabelProps) => {
   return (
     <View
       style={{
         width: sizeDimension,
         height: sizeDimension,
         borderRadius: sizeDimension / 2,
-        backgroundColor: WHITE,
+        backgroundColor: Colors.SURFACE,
         justifyContent: 'center',
         alignItems: 'center',
       }}
     >
-      {children}
+      <UIText
+        variant="bodyMedium"
+        color={isSelected ? Colors.PRIMARY : Colors.TEXT_PRIMARY}
+      >
+        {sizeValue}
+      </UIText>
     </View>
   );
 };

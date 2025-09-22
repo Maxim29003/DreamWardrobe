@@ -1,14 +1,21 @@
-export const WHITE = '#FFFFFF'
-export const BLACK = "#000000"
+export enum Colors {
+  PRIMARY = '#E96E6E',
+  ON_PRIMARY = '#FFFFFF',
 
-export const PRIMARY = '#E96E6E'
-export const SECONDARY = '#DFDCDC'
+  BACKGROUND_GRADIENT_START = '#FFD7DE',
+  BACKGROUND_GRADIENT_END = '#FFFBFC',
 
-export const TAB_BAR_ICON_COLOR = "#C0C0C0"
+  SURFACE = '#FFFFFF',
 
-export const FONT_COLOR = '#444444'
-export const FONT_COLOR_SECONDARY = '#797979'
+  TEXT_PRIMARY = '#000000',
+  TEXT_SECONDARY = '#444444',
+  TEXT_TERTIARY = '#797979',
+  TEXT_INPUT = '#B6B6B6',
 
+  ICON_PRIMARY = '#E96E6E',
+  ICON_SECONDARY = '#C0C0C0',
 
-export const  LINEAR_GRADIENT_START = '#FFD7DE'
-export const  LINEAR_GRADIENT_END = '#FFFBFC'
+  ERROR = '#E74C3C',
+  SUCCESS = '#2ECC71',
+  WARNING = '#F1C40F',
+}

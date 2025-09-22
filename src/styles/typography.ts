@@ -1,32 +1,45 @@
 import { StyleSheet } from 'react-native';
-import { BLACK, FONT_COLOR, FONT_COLOR_SECONDARY } from './colors';
 
-export const typography = StyleSheet.create({
-  mainTitle: {
-    fontFamily: 'Poppins Regular',
+export const Typography = StyleSheet.create({
+  heading: {
+    fontFamily: 'Poppins-Regular',
     fontSize: 28,
-    fontWeight: 'regular',
-    color: BLACK,
+    fontWeight: '400',
+    lineHeight: 36,
   },
-
-  mediumTitle: {
+  subtitle: {
+    fontFamily: 'Poppins-Medium',
     fontSize: 20,
-    fontFamily: 'Poppins Medium',
-    fontWeight: 'medium',
-    color: FONT_COLOR,
+    fontWeight: '500',
+    lineHeight: 28,
+  },
+  body: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 18,
+    fontWeight: '400',
+    lineHeight: 24,
   },
 
-  smallTitle: {
+  bodyMedium: {
+    fontFamily: 'Poppins-Medium',
     fontSize: 18,
-    fontFamily: 'Poppins Medium',
-    fontWeight: 'medium',
-    color: FONT_COLOR,
+    fontWeight: '500',
+    lineHeight: 24,
   },
 
-  smallTitleSecondary: {
-    fontSize: 18,
-    fontFamily: 'Poppins Medium',
-    fontWeight: 'medium',
-    color: FONT_COLOR_SECONDARY,
+ bodySemiBold: {
+  fontFamily: 'Poppins-SemiBold', 
+  fontSize: 18,
+  fontWeight: '600',
+  lineHeight: 24,
+},
+
+  button: {
+    fontFamily: 'Poppins-SemiBold',
+    fontSize: 24,
+    fontWeight: '600',
+    lineHeight: 32,
   },
 });
+
+export type FontSize = keyof typeof Typography;

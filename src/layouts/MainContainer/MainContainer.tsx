@@ -1,40 +1,84 @@
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleProp,
+  View,
+  ViewStyle,
+} from 'react-native';
 import React, { ReactNode } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
-import { LINEAR_GRADIENT_END, LINEAR_GRADIENT_START } from '@styles/colors';
+import { Colors } from '@styles/colors';
+import { isIPhone } from '@utils/platform';
 
 type MainContainerProps = {
   children: ReactNode;
   style?: StyleProp<ViewStyle> | undefined;
+  scrollable?: boolean;
+  keyboardAware?: boolean;
+  noBottomPadding?: boolean;
 };
 
-const MainContainer = ({ children, style }: MainContainerProps) => {
+const MainContainer = ({
+  children,
+  style,
+  scrollable = false,
+  keyboardAware = false,
+  noBottomPadding = false,
+}: MainContainerProps) => {
   const insets = useSafeAreaInsets();
-  return (
-    <LinearGradient
-      colors={[LINEAR_GRADIENT_START, LINEAR_GRADIENT_END]}
-      style={styles.linearGradient}
-    >
-      <View
-        style={[{
+
+  const content = (
+    <View
+      style={[
+        {
           paddingTop: insets.top,
-          paddingBottom: insets.bottom,
+          paddingBottom: noBottomPadding ? 0 : insets.bottom,
           paddingLeft: insets.left + 30,
           paddingRight: insets.right + 30,
-          flex:1,
-        }, style]}
-      >
-        {children}
-      </View>
+          flex: 1,
+        },
+        style,
+      ]}
+    >
+      {children}
+    </View>
+  );
+
+  const withScroll = scrollable ? (
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}
+    >
+      {content}
+    </ScrollView>
+  ) : (
+    content
+  );
+
+  const withKeyboard = keyboardAware ? (
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={isIPhone ? 'padding' : 'height'}
+    >
+      {withScroll}
+    </KeyboardAvoidingView>
+  ) : (
+    withScroll
+  );
+
+  return (
+    <LinearGradient
+      colors={[
+        Colors.BACKGROUND_GRADIENT_START,
+        Colors.BACKGROUND_GRADIENT_END,
+      ]}
+      style={{ flex: 1 }}
+    >
+      {withKeyboard}
     </LinearGradient>
   );
 };
 
 export default MainContainer;
-
-const styles = StyleSheet.create({
-  linearGradient: {
-    flex: 1,
-  },
-});

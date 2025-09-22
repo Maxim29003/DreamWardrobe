@@ -1,17 +1,16 @@
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import React from 'react';
-import { typography } from '@styles/typography';
-import InputBase from '@components/InputBase/InputBase';
+import InputBase from '@ui/InputBase/InputBase';
 import Spacer from '@components/Spacer/Spacer';
-import PrimaryButton from '@ui/PrimaryButton/PrimaryButton';
-import { useAppDispatch } from '@hooks/useAppDispatch';
-import UserActions from '@store/actions/user.actions';
+import UIButton from '@ui/Button/UIButton';
 import { Controller, useForm } from 'react-hook-form';
 import { account } from '@api/appwrite';
 import { ID } from 'appwrite';
 import { UserType } from '@type/User.types';
 import useAppNavigation from '@hooks/useAppNavigation';
 import { SCREENS } from '@routes/navigations.types';
+import { Colors } from '@styles/colors';
+import UIText from '@ui/Text/UIText';
 
 type FormData = {
   name: string;
@@ -52,9 +51,9 @@ const SignUpForm = () => {
   return (
     <View>
       {errors.root && (
-        <Text style={{ color: 'red', marginBottom: 10 }}>
+        <UIText variant="body" color={Colors.ERROR}>
           {errors.root.message}
-        </Text>
+        </UIText>
       )}
       <Controller
         control={control}
@@ -63,10 +62,14 @@ const SignUpForm = () => {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <View>
-            <Text style={typography.smallTitleSecondary}>Name</Text>
+            <UIText variant="bodyMedium" color={Colors.TEXT_TERTIARY}>
+              Name
+            </UIText>
             <Spacer height={10} />
             <InputBase
-              style={errors.name && { borderWidth: 1, borderColor: 'red' }}
+              style={
+                errors.name && { borderWidth: 1, borderColor: Colors.ERROR }
+              }
               placeholder="Name"
               onBlur={onBlur}
               onChangeText={onChange}
@@ -77,10 +80,11 @@ const SignUpForm = () => {
         name="name"
       />
       {errors.name && (
-        <Text style={typography.smallTitleSecondary}>Name is is required</Text>
+        <UIText variant="body" color={Colors.ERROR}>
+          Name is is required
+        </UIText>
       )}
       <Spacer height={25} />
-
       <Controller
         control={control}
         rules={{
@@ -88,10 +92,15 @@ const SignUpForm = () => {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <View>
-            <Text style={typography.smallTitleSecondary}>Email</Text>
+            <UIText variant="bodyMedium" color={Colors.TEXT_TERTIARY}>
+              Email
+            </UIText>
+
             <Spacer height={10} />
             <InputBase
-              style={errors.email && { borderWidth: 1, borderColor: 'red' }}
+              style={
+                errors.email && { borderWidth: 1, borderColor: Colors.ERROR }
+              }
               placeholder="Email"
               onBlur={onBlur}
               onChangeText={onChange}
@@ -102,7 +111,9 @@ const SignUpForm = () => {
         name="email"
       />
       {errors.email && (
-        <Text style={typography.smallTitleSecondary}>Email is required</Text>
+        <UIText variant="body" color={Colors.ERROR}>
+          Email is required
+        </UIText>
       )}
       <Spacer height={25} />
       <Controller
@@ -112,10 +123,14 @@ const SignUpForm = () => {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <View>
-            <Text style={typography.smallTitleSecondary}>Password</Text>
+            <UIText variant="bodyMedium" color={Colors.TEXT_TERTIARY}>
+              Password
+            </UIText>
             <Spacer height={10} />
             <InputBase
-              style={errors.password && { borderWidth: 1, borderColor: 'red' }}
+              style={
+                errors.password && { borderWidth: 1, borderColor: Colors.ERROR }
+              }
               placeholder="Password"
               type="password"
               onBlur={onBlur}
@@ -127,10 +142,12 @@ const SignUpForm = () => {
         name="password"
       />
       {errors.password && (
-        <Text style={typography.smallTitleSecondary}>Password is required</Text>
+        <UIText variant="body" color={Colors.ERROR}>
+          Password is required
+        </UIText>
       )}
       <Spacer height={59} />
-      <PrimaryButton text={'Sign Up'} onPress={handleSubmit(onSubmit)} />
+      <UIButton text={'Sign Up'} onPress={handleSubmit(onSubmit)} />
       <Spacer height={20} />
     </View>
   );

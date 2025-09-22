@@ -3,8 +3,6 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { CreateUserType } from '@type/CreateUser.types';
 import { UserType } from '@type/User.types';
 
-import { ID } from 'appwrite';
-
 const UserActions = {
   signIn: createAsyncThunk(
     'user/sigIn',

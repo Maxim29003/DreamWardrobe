@@ -1,12 +1,13 @@
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import React from 'react';
 import Spacer from '@components/Spacer/Spacer';
-import InputBase from '@components/InputBase/InputBase';
-import { typography } from '@styles/typography';
-import PrimaryButton from '@ui/PrimaryButton/PrimaryButton';
+import InputBase from '@ui/InputBase/InputBase';
+import UIButton from '@ui/Button/UIButton';
 import { Controller, useForm } from 'react-hook-form';
 import { useAppDispatch } from '@hooks/useAppDispatch';
 import UserActions from '@store/actions/user.actions';
+import UIText from '@ui/Text/UIText';
+import { Colors } from '@styles/colors';
 
 type FormData = {
   email: string;
@@ -23,24 +24,24 @@ const SignInForm = () => {
   } = useForm<FormData>();
 
   const onSubmit = async ({ email, password }: FormData) => {
-      console.log(email, password);
-      try {
-        await dispatch(UserActions.signIn({email, password})).unwrap()
-      } catch (err: any) {
-        console.log('onSubmit', err);
-        setError('root', {
-          type: 'deps',
-          message: err || 'Something went wrong',
-        });
-      }
-    };
+    console.log(email, password);
+    try {
+      await dispatch(UserActions.signIn({ email, password })).unwrap();
+    } catch (err: any) {
+      console.log('onSubmit', err);
+      setError('root', {
+        type: 'deps',
+        message: err || 'Something went wrong',
+      });
+    }
+  };
 
   return (
     <View>
       {errors.root && (
-        <Text style={{ color: 'red', marginBottom: 10 }}>
+        <UIText variant="body" color={Colors.ERROR}>
           {errors.root.message}
-        </Text>
+        </UIText>
       )}
       <Controller
         control={control}
@@ -49,10 +50,14 @@ const SignInForm = () => {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <View>
-            <Text style={typography.smallTitleSecondary}>Email</Text>
+            <UIText variant="bodyMedium" color={Colors.TEXT_TERTIARY}>
+              Email
+            </UIText>
             <Spacer height={10} />
             <InputBase
-              style={errors.email && { borderWidth: 1, borderColor: 'red' }}
+              style={
+                errors.email && { borderWidth: 1, borderColor: Colors.ERROR }
+              }
               placeholder="Email"
               onBlur={onBlur}
               onChangeText={onChange}
@@ -63,7 +68,9 @@ const SignInForm = () => {
         name="email"
       />
       {errors.email && (
-        <Text style={typography.smallTitleSecondary}>Email is required</Text>
+        <UIText variant="body" color={Colors.ERROR}>
+          Email is required
+        </UIText>
       )}
       <Spacer height={25} />
       <Controller
@@ -73,10 +80,15 @@ const SignInForm = () => {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <View>
-            <Text style={typography.smallTitleSecondary}>Password</Text>
+            <UIText variant="bodyMedium" color={Colors.TEXT_TERTIARY}>
+              Password
+            </UIText>
+
             <Spacer height={10} />
             <InputBase
-              style={errors.password && { borderWidth: 1, borderColor: 'red' }}
+              style={
+                errors.password && { borderWidth: 1, borderColor: Colors.ERROR }
+              }
               placeholder="Password"
               type="password"
               onBlur={onBlur}
@@ -88,10 +100,12 @@ const SignInForm = () => {
         name="password"
       />
       {errors.password && (
-        <Text style={typography.smallTitleSecondary}>Password is required</Text>
+        <UIText variant="body" color={Colors.ERROR}>
+          Password is required
+        </UIText>
       )}
       <Spacer height={59} />
-      <PrimaryButton text={'Sign In'} onPress={handleSubmit(onSubmit)} />
+      <UIButton text={'Sign In'} onPress={handleSubmit(onSubmit)} />
       <Spacer height={20} />
     </View>
   );
