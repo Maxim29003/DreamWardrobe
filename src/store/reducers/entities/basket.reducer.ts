@@ -39,7 +39,9 @@ const basketSlice = createSlice({
           price: action.payload.price,
           count: (currentElement?.count || 0) + 1,
         });
-        state.totalPrice = parseFloat((state.totalPrice + action.payload.price).toFixed(2));
+        state.totalPrice = parseFloat(
+          (state.totalPrice + action.payload.price).toFixed(2),
+        );
         state.totalCount += 1;
       })
       .addCase(BasketActions.deleteProduct, (state, action) => {
@@ -57,9 +59,11 @@ const basketSlice = createSlice({
             basketAdapter.removeOne(state, id);
           }
         }
-        state.totalPrice = parseFloat((state.totalPrice -  action.payload.price).toFixed(2));
+        state.totalPrice = parseFloat(
+          (state.totalPrice - action.payload.price).toFixed(2),
+        );
         state.totalCount = Math.max(0, state.totalCount - 1);
-      })
+      });
   },
 });
 

@@ -7,6 +7,8 @@ import ProductCard from '@components/ProductCard/ProductCard';
 import Spacer from '@components/Spacer/Spacer';
 import { useAppSelector } from '@hooks/useAppSelector';
 import FavoritesSelectors from '@store/selectors/favorites.selectors';
+import UIText from '@ui/Text/UIText';
+import { Colors } from '@styles/colors';
 
 const FavoritesScreen = () => {
   const favoritesProductIds = useAppSelector(
@@ -36,6 +38,9 @@ const FavoritesScreen = () => {
         heightItem={HEIGHT * 0.35}
         widthScreen={WIDTH}
         ListHeaderComponent={<Spacer height={20} />}
+        ListEmptyComponent={()=>(
+        <UIText style={{textAlign: 'center'}} color={Colors.TEXT_SECONDARY}>No Favorites</UIText>
+      )}
       />
     </MainContainer>
   );

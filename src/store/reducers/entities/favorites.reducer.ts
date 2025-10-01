@@ -1,5 +1,4 @@
 import {
-  createEntityAdapter,
   createSlice,
   PayloadAction,
 } from '@reduxjs/toolkit';
@@ -9,34 +8,26 @@ import FavoritesActions, {
 import { ProductType } from '@type/Product.types';
 
 type FavoritesType = {
-  id: ProductType['$id'];
-  isLike: boolean;
+  favoritesProductIds: ProductType['$id'][];
 };
 
-export const favoritesAdapter = createEntityAdapter<FavoritesType>();
+const initialState:FavoritesType = {
+  favoritesProductIds: [],
+}
 
 const favoritesReducer = createSlice({
   name: 'favorites',
-  initialState: favoritesAdapter.getInitialState(),
+  initialState,
   reducers: {},
   extraReducers: builder => {
     builder.addCase(
       FavoritesActions.toggleLike,
       (state, action: PayloadAction<ToggleLikePayloadType>) => {
         const id = action.payload.productId;
-        const currentElement = favoritesAdapter
-          .getSelectors()
-          .selectById(state, id);
-        if (currentElement) {
-          favoritesAdapter.upsertOne(state, {
-            id,
-            isLike: currentElement.isLike!,
-          });
+        if (state.favoritesProductIds.includes(id)){
+          state.favoritesProductIds = state.favoritesProductIds.filter(item => item !== id)
         } else {
-          favoritesAdapter.upsertOne(state, {
-            id,
-            isLike: true,
-          });
+          state.favoritesProductIds.push(id)
         }
       },
     );

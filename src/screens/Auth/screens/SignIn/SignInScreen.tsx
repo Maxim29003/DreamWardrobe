@@ -1,9 +1,7 @@
-import { KeyboardAvoidingView, ScrollView } from 'react-native';
 import React from 'react';
 import SignInForm from './components/SignInForm/SignInForm';
 import MainContainer from '@layouts/MainContainer/MainContainer';
 import Spacer from '@components/Spacer/Spacer';
-import { isIPhone } from '@utils/platform';
 import UIText from '@ui/Text/UIText';
 
 const SignInScreen = () => {

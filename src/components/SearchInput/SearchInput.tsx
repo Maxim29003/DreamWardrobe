@@ -10,15 +10,17 @@ import UIIconButton from '@ui/IconButton/UIIconButton';
 type SearchInputProps = {
   value?: string | undefined;
   onChangeText?: ((text: string) => void) | undefined;
+  onSearchPress?: () => void;
 };
 
-const SearchInput = ({ value, onChangeText }: SearchInputProps) => {
+const SearchInput = ({ value, onChangeText, onSearchPress }: SearchInputProps) => {
   return (
     <View style={styles.container}>
       <Spacer width={15} />
       <UIIconButton
         style={styles.button}
         icon={<SearchIcon fill={Colors.TEXT_INPUT} width={26} height={26} />}
+        onPress={onSearchPress}
       />
       <Spacer width={10} />
       <InputBase

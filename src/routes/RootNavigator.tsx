@@ -4,7 +4,7 @@ import UserSelectors from '@store/selectors/user.selectors';
 import { AuthScreens, PrivateScreens } from './routes';
 
 function RootNavigator() {
-  const user = useAppSelector(UserSelectors.user)[0];
+  const user = useAppSelector(UserSelectors.user);
   const screensToRender = user?.sessionId ? PrivateScreens : AuthScreens;
 
   if (!screensToRender.length) return null;

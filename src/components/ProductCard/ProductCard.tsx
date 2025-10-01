@@ -21,7 +21,7 @@ type ProductCardProps = {
 const ProductCard = ({ id }: ProductCardProps) => {
   const dispatch = useAppDispatch();
   const productCard = useAppSelector(ProductsSelectors.selectById(id));
-  const isLike = useAppSelector(FavoritesSelectors.isLiked(id));
+  const isLiked = useAppSelector(FavoritesSelectors.isLiked(id));
   const navigation = useAppNavigation();
 
   useEffect(() => {
@@ -46,10 +46,18 @@ const ProductCard = ({ id }: ProductCardProps) => {
         variant="filled"
         style={styles.likeButton}
         icon={
-          isLike?.isLike ?? false ? (
-            <HeartFilledIcon fill={Colors.ICON_PRIMARY} width={20} height={20} />
+          isLiked ? (
+            <HeartFilledIcon
+              fill={Colors.ICON_PRIMARY}
+              width={20}
+              height={20}
+            />
           ) : (
-            <HeartOutlineIcon fill={Colors.ICON_PRIMARY} width={20} height={20} />
+            <HeartOutlineIcon
+              fill={Colors.ICON_PRIMARY}
+              width={20}
+              height={20}
+            />
           )
         }
         onPress={handleToggleLike}
@@ -58,7 +66,7 @@ const ProductCard = ({ id }: ProductCardProps) => {
         {productCard.name}
       </UIText>
       <UIText variant="bodyMedium" color={Colors.TEXT_TERTIARY}>
-        {productCard.price}
+        {productCard.price} $
       </UIText>
     </TouchableOpacity>
   );

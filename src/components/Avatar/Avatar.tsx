@@ -1,21 +1,32 @@
-import { Image } from 'react-native';
+import { View } from 'react-native';
 import React from 'react';
+import UserSelectors from '@store/selectors/user.selectors';
+import { useAppSelector } from '@hooks/useAppSelector';
+import { Colors } from '@styles/colors';
+import UIText from '@ui/Text/UIText';
+
 
 type AvatarProp = {
   size: number;
-  uri: string;
 };
 
-const Avatar = ({ size, uri }: AvatarProp) => {
+const Avatar = ({ size }: AvatarProp) => {
+  const user = useAppSelector(UserSelectors.user);
   return (
-    <Image
+    <View
       style={{
         width: size,
         height: size,
         borderRadius: size / 2,
-      }}
-      source={{ uri: uri }}
-    />
+        backgroundColor: Colors.SURFACE,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+        <UIText color={Colors.PRIMARY}>
+           {user?.name?.[0]?.toUpperCase() ?? ""}
+        </UIText>
+       
+      </View>
   );
 };
 

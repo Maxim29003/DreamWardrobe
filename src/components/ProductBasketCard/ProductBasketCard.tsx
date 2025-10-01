@@ -20,11 +20,14 @@ type ProductBasketCardProps = {
 };
 
 const ProductBasketCard = ({ id }: ProductBasketCardProps) => {
+
+
   const dispatch = useAppDispatch();
 
   const product = useAppSelector(ProductsSelectors.selectById(id));
   const count = useAppSelector(BasketSelectors.count(id));
 
+  
   useEffect(() => {
     console.log('ProductBasketCard mount', product.price);
     return () => console.log('ProductBasketCard unmount ', product.price);
@@ -43,7 +46,7 @@ const ProductBasketCard = ({ id }: ProductBasketCardProps) => {
             {product.name}
           </UIText>
           <UIText variant="bodyMedium" color={Colors.TEXT_TERTIARY}>
-            {product.price}
+            {product.price}$
           </UIText>
           <View style={styles.labelsContainer}>
             <ColorLabel size={32} color={product.color} />

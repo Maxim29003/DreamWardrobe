@@ -24,8 +24,8 @@ const SignUpForm = () => {
   const {
     control,
     handleSubmit,
-    setError,
     formState: { errors },
+    setError,
   } = useForm<FormData>();
 
   const onSubmit = async ({ email, password, name }: FormData) => {
@@ -43,14 +43,14 @@ const SignUpForm = () => {
       console.log('onSubmit', err);
       setError('root', {
         type: 'deps',
-        message: err || 'Something went wrong',
+        message: err.message || 'Something went wrong',
       });
     }
   };
 
   return (
     <View>
-      {errors.root && (
+       {errors.root && (
         <UIText variant="body" color={Colors.ERROR}>
           {errors.root.message}
         </UIText>

@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import MainContainer from '@layouts/MainContainer/MainContainer';
 import Header from '@layouts/Header/Header';
-import Avatar from '@components/Avatar/Avatar';
-import HeaderMainLabel from '@layouts/Header/components/HeaderMainLabel/HeaderMainLabel';
 import SearchInput from '@components/SearchInput/SearchInput';
 import { GridLayout } from '@layouts/GridLayout/GridLayout';
 import { calculateNumColumns, HEIGHT, WIDTH } from '@utils/normalizer';
@@ -14,37 +12,58 @@ import ProductsActions from '@store/actions/products.actions';
 import ProductsSelectors from '@store/selectors/products.selectors';
 import UIText from '@ui/Text/UIText';
 import { Colors } from '@styles/colors';
+import { ProductType } from '@type/Product.types';
+import Fuse from 'fuse.js';
 
 const HomeScreen = () => {
-  
   const dispatch = useAppDispatch();
+
   const productsIds = useAppSelector(ProductsSelectors.ids);
-  const products = useAppSelector((state)=>state.products);
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
+
+  const [searchProductIds, setSearchProductIds] = useState<
+    ProductType['$id'][]
+  >([]);
+
+  const products = useAppSelector(ProductsSelectors.products);
+
+  const fuse = useMemo(
+    () =>
+      new Fuse(products, {
+        keys: ['name'],
+        threshold: 0.3,
+      }),
+    [products],
+  );
+
+  const handleSearch = (text: string) => {
+    setSearchTerm(text);
+    if (text === '') {
+      setIsSearching(false);
+    }
+  };
+
+  const handleSearchPress = () => {
+    if (searchTerm === '') {
+      setIsSearching(false);
+      return;
+    }
+    const results = fuse.search(searchTerm).map(result => result.item.$id);
+    setSearchProductIds(results);
+    setIsSearching(true);
+  };
 
   useEffect(() => {
     dispatch(ProductsActions.fetchProducts());
   }, [dispatch]);
 
-  useEffect(()=>{
-    console.log("HomeScreen mount")
-    return ()=> console.log("HomeScreen unmount")
-  }, [])
-
-   useEffect(()=>{
-    console.log("HomeScreen productsIds", productsIds)
-    console.log(products)
-  }, [productsIds, products])
-
-
-   useEffect(()=>{
-    console.log("HomeScreen update")
-  })
-
   return (
     <MainContainer noBottomPadding>
-      <Header variant="label-avatar"/>
+      <Header variant="label-avatar" />
       <GridLayout
-        data={productsIds}
+        data={isSearching ? searchProductIds : productsIds}
         keyExtractor={id => id.toString()}
         renderItem={id => <ProductCard id={id} />}
         columnGap={20}
@@ -56,9 +75,15 @@ const HomeScreen = () => {
         ListHeaderComponent={
           <>
             <Spacer height={20} />
-            <UIText variant="heading" color={Colors.TEXT_PRIMARY}>Match Your Style</UIText>
+            <UIText variant="heading" color={Colors.TEXT_PRIMARY}>
+              Match Your Style
+            </UIText>
             <Spacer height={10} />
-            <SearchInput />
+            <SearchInput
+              onChangeText={handleSearch}
+              value={searchTerm}
+              onSearchPress={handleSearchPress}
+            />
             <Spacer height={10} />
           </>
         }
@@ -68,4 +93,3 @@ const HomeScreen = () => {
 };
 
 export default HomeScreen;
-

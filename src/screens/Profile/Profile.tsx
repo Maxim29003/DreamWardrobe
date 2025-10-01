@@ -11,29 +11,36 @@ import { useAppSelector } from '@hooks/useAppSelector';
 import UserSelectors from '@store/selectors/user.selectors';
 import UIText from '@ui/Text/UIText';
 import { Colors } from '@styles/colors';
-
+import { persistor } from '@store/store';
+import { storage } from '@utils/MMKVStorage';
 
 const Profile = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector(UserSelectors.user)[0];
+  const user = useAppSelector(UserSelectors.user);
   return (
     <MainContainer>
-      <Header variant="back-title" title='My Profile'/>
+      <Header variant="back-title" title="My Profile" />
       <View style={{ alignItems: 'center' }}>
         <Spacer height={20} />
         <Avatar
-          size={120}
-          uri="https://avatars.mds.yandex.net/i?id=451c2720edb5fdad00d8f320ba5d50980af55381-9065873-images-thumbs&n=13"
-        />
+          size={120}/>
         <Spacer height={69} />
       </View>
-      <UIText variant="bodyMedium" color={Colors.TEXT_TERTIARY}>Name: {user.name}</UIText>
+      <UIText variant="bodyMedium" color={Colors.TEXT_TERTIARY}>
+        Name: {user?.name ?? '—'}
+      </UIText>
       <Spacer height={10} />
-      <UIText variant="bodyMedium" color={Colors.TEXT_TERTIARY}>Email: {user.email}</UIText>
+      <UIText variant="bodyMedium" color={Colors.TEXT_TERTIARY}>
+        Email: {user?.email ?? '—'}
+      </UIText>
       <Spacer height={55} />
       <UIButton
         text="Logout"
-        onPress={() => dispatch(UserActions.logout(user.sessionId))}
+        onPress={async () => {
+          if (user?.sessionId) {
+            dispatch(UserActions.logout(user.sessionId));
+          }
+        }}
       />
       <Spacer height={20} />
     </MainContainer>

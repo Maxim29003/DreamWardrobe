@@ -22,10 +22,7 @@ const Header = ({ variant, title }: HeaderProps) => {
       {variant === 'label-avatar' && (
         <>
           <HeaderMainLabel />
-          <Avatar
-            size={44}
-            uri="https://avatars.mds.yandex.net/i?id=451c2720edb5fdad00d8f320ba5d50980af55381-9065873-images-thumbs&n=13"
-          />
+          <Avatar size={44} />
         </>
       )}
 
@@ -38,10 +35,7 @@ const Header = ({ variant, title }: HeaderProps) => {
             icon={<ArrowBackIcon fill={Colors.ICON_PRIMARY} />}
           />
           <UIText>{title}</UIText>
-          <Avatar
-            size={44}
-            uri="https://avatars.mds.yandex.net/i?id=451c2720edb5fdad00d8f320ba5d50980af55381-9065873-images-thumbs&n=13"
-          />
+          <Avatar size={44} />
         </>
       )}
 
@@ -54,10 +48,7 @@ const Header = ({ variant, title }: HeaderProps) => {
             icon={<ArrowBackIcon fill={Colors.ICON_PRIMARY} />}
           />
 
-          <Avatar
-            size={44}
-            uri="https://avatars.mds.yandex.net/i?id=451c2720edb5fdad00d8f320ba5d50980af55381-9065873-images-thumbs&n=13"
-          />
+          <Avatar size={44} />
         </>
       )}
 

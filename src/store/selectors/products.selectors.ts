@@ -1,7 +1,7 @@
 import { productsAdapter } from "@store/reducers/entities/product.reducer";
 import { RootState } from "@store/store";
 import { ProductType } from "@type/Product.types";
-import { ProductCardType } from "@type/ProductCard.type";
+
 
 
 const productsSelectors = productsAdapter.getSelectors(
@@ -31,6 +31,7 @@ const ProductsSelectors = {
     selectById: productByIdSelector,
     status: productsStatusSelector,
     error: productsErrorSelector,
+    products: productsSelectors.selectAll,
 }
 
 export default ProductsSelectors

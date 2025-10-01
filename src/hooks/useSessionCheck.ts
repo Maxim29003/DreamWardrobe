@@ -8,17 +8,20 @@ import { useAppSelector } from "./useAppSelector";
 
 export function useSessionCheck() {
   const dispatch = useAppDispatch();
-  const user = useAppSelector(UserSelectors.user)[0];
+  const user = useAppSelector(UserSelectors.user);
 
   const checkSession = async () => {
     try {
       await account.get(); // пробуем получить текущего пользователя
-       console.log("checkSession 1")
+      console.log("checkSession 1")
     } catch (err) {
-       console.log("checkSession 2")
-       console.log("user", user)
+      console.log("checkSession 2")
+      console.log("user", user)
       console.log("Session invalid, logging out", err);
-      dispatch(UserActions.logout(user.sessionId));
+      if(user){
+         dispatch(UserActions.logout(user.sessionId));
+      }
+     
     }
   };
 

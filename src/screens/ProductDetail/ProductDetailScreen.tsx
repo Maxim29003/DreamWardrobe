@@ -1,5 +1,5 @@
 import { Image, ScrollView, View } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import MainContainer from '@layouts/MainContainer/MainContainer';
 import Header from '@layouts/Header/Header';
 import { colors, sizes } from '@mocks/testImages';
@@ -19,7 +19,7 @@ import UIText from '@ui/Text/UIText';
 
 const ProductDetailScreen = () => {
   const route = useAppRoute();
-  const productId = route.params?.productId;
+  const productId = route?.params?.productId;
   const dispatch = useAppDispatch();
   const product = useAppSelector(ProductsSelectors.selectById(productId!));
 
