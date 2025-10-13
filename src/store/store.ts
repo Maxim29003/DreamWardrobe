@@ -35,7 +35,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredActions: [PERSIST, REHYDRATE, REGISTER, FLUSH, PAUSE, PURGE],
       },
     }),
 });

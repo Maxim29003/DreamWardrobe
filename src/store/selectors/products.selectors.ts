@@ -26,8 +26,13 @@ const productsErrorSelector = (state: RootState) => {
     return state.products.error;
 }
 
+const idsBySearch = (search: string) => (state: RootState) => {
+    return productsSelectors.selectAll(state).filter(product => product.name.toLowerCase().includes(search.toLowerCase())).map(product => product.$id);
+}
+
 const ProductsSelectors = {
     ids: productIdsSelector,
+    idsBySearch,
     selectById: productByIdSelector,
     status: productsStatusSelector,
     error: productsErrorSelector,
