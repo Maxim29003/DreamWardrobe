@@ -1,9 +1,9 @@
 import { Client, Databases, Account } from 'appwrite';
-import { ENDPOINT, PROJECT_ID } from '../../env';
+import Config from 'react-native-config';
 
 const client: Client = new Client();
 
-client.setEndpoint(ENDPOINT).setProject(PROJECT_ID);
+client.setEndpoint(Config.ENDPOINT).setProject(Config.PROJECT_ID);
 
 export const account: Account = new Account(client);
 export const database: Databases = new Databases(client);
