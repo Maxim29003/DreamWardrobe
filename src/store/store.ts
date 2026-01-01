@@ -2,7 +2,6 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import basketReducer from '@store/reducers/entities/basket.reducer.ts';
 import productReducer from '@store/reducers/entities/product.reducer.ts';
 import favoritesReducer from '@store/reducers/entities/favorites.reducer.ts';
-import userReducer from './reducers/entities/user.reducer';
 import { reduxStorage } from '@utils/MMKVStorage';
 import {
   persistStore,
@@ -19,13 +18,12 @@ const rootReducer = combineReducers({
   products: productReducer,
   basket: basketReducer,
   favorites: favoritesReducer,
-  user: userReducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage: reduxStorage,
-  whitelist: ['user', 'basket', 'favorites'],
+  whitelist: ['basket', 'favorites', 'products'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

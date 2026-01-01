@@ -4,6 +4,9 @@
 
 env.ts
 
+google-services.json
+GoogleService-Info.plist
+
 # Xcode
 #
 build/

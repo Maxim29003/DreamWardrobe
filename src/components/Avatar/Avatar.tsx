@@ -1,17 +1,15 @@
 import { View } from 'react-native';
 import React from 'react';
-import UserSelectors from '@store/selectors/user.selectors';
-import { useAppSelector } from '@hooks/useAppSelector';
 import { Colors } from '@styles/colors';
 import UIText from '@ui/Text/UIText';
 
-
 type AvatarProp = {
   size: number;
+  icon?: React.ReactNode;
+  name?: string;
 };
 
-const Avatar = ({ size }: AvatarProp) => {
-  const user = useAppSelector(UserSelectors.user);
+const Avatar = ({ size, icon, name }: AvatarProp) => {
   return (
     <View
       style={{
@@ -21,12 +19,16 @@ const Avatar = ({ size }: AvatarProp) => {
         backgroundColor: Colors.SURFACE,
         justifyContent: 'center',
         alignItems: 'center',
-      }}>
+      }}
+    >
+      {icon ? (
+        icon
+      ) : (
         <UIText color={Colors.PRIMARY}>
-           {user?.name?.[0]?.toUpperCase() ?? ""}
+          {name?.[0]?.toUpperCase() ?? ''}
         </UIText>
-       
-      </View>
+      )}
+    </View>
   );
 };
 

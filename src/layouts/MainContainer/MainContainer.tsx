@@ -16,7 +16,7 @@ type MainContainerProps = {
   style?: StyleProp<ViewStyle> | undefined;
   scrollable?: boolean;
   keyboardAware?: boolean;
-  noBottomPadding?: boolean;
+  topPadding?: number | 'insets';
 };
 
 const MainContainer = ({
@@ -24,16 +24,17 @@ const MainContainer = ({
   style,
   scrollable = false,
   keyboardAware = false,
-  noBottomPadding = false,
+  topPadding = 'insets',
 }: MainContainerProps) => {
   const insets = useSafeAreaInsets();
+  const resolvedTopPadding =
+    topPadding === 'insets' ? insets.top : topPadding ?? insets.top;
 
   const content = (
     <View
       style={[
         {
-          paddingTop: insets.top,
-          paddingBottom: noBottomPadding ? 0 : insets.bottom,
+          paddingTop: resolvedTopPadding,
           paddingLeft: insets.left + 30,
           paddingRight: insets.right + 30,
           flex: 1,

@@ -1,68 +1,40 @@
-import {
-  createEntityAdapter,
-  createSlice,
-  EntityState,
-} from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
 import BasketActions from '@store/actions/basket.actions.ts';
-import { ProductType } from '@type/Product.types';
+import { BasketProductType } from '@appTypes/BasketProduct.type';
 
-type Basket = {
-  id: ProductType['$id'];
-  count: number;
-  price: number;
-};
-
-type BasketState = EntityState<Basket, Basket['id']> & {
-  totalCount: number;
-  totalPrice: number;
-};
-
-export const basketAdapter = createEntityAdapter<Basket>();
-
-const initialState: BasketState = basketAdapter.getInitialState({
-  totalCount: 0,
-  totalPrice: 0,
+export const basketAdapter = createEntityAdapter<BasketProductType, string>({
+  selectId: (basket: BasketProductType) => basket.id,
 });
 
 const basketSlice = createSlice({
   name: 'basket',
-  initialState,
+  initialState: basketAdapter.getInitialState(),
   reducers: {},
   extraReducers: builder => {
     builder
       .addCase(BasketActions.addProduct, (state, action) => {
-        const currentElement = basketAdapter
-          .getSelectors()
-          .selectById(state, action.payload.productId);
-        basketAdapter.upsertOne(state, {
-          id: action.payload.productId,
-          price: action.payload.price,
-          count: (currentElement?.count || 0) + 1,
-        });
-        state.totalPrice = parseFloat(
-          (state.totalPrice + action.payload.price).toFixed(2),
-        );
-        state.totalCount += 1;
+        const product = action.payload;
+
+        basketAdapter.addOne(state, { ...product, count: 1 });
       })
       .addCase(BasketActions.deleteProduct, (state, action) => {
-        const id = action.payload.productId;
-        const currentElement = basketAdapter
-          .getSelectors()
-          .selectById(state, id);
-        if (currentElement) {
-          if (currentElement.count > 1) {
-            basketAdapter.updateOne(state, {
-              id,
-              changes: { count: currentElement.count - 1 },
-            });
-          } else {
-            basketAdapter.removeOne(state, id);
-          }
+        const productId = action.payload.id;
+        basketAdapter.removeOne(state, productId);
+      })
+
+      .addCase(BasketActions.countIncrement, (state, action) => {
+        const productId = action.payload.id;
+        const product = state.entities[productId];
+        if (product) {
+          product.count++;
         }
-        state.totalPrice = parseFloat(
-          (state.totalPrice - action.payload.price).toFixed(2),
-        );
-        state.totalCount = Math.max(0, state.totalCount - 1);
+      })
+      .addCase(BasketActions.countDecrement, (state, action) => {
+        const productId = action.payload.id;
+        const product = state.entities[productId];
+        if (product && product.count > 1) {
+          product.count--;
+        }
       });
   },
 });

@@ -1,4 +1,4 @@
-import { StyleProp, StyleSheet, TouchableOpacity, ViewStyle } from 'react-native';
+import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
 import React from 'react';
 import { Colors } from '@styles/colors';
 
@@ -38,4 +38,3 @@ const UIIconButton = ({
 
 export default UIIconButton;
 
-const styles = StyleSheet.create({});

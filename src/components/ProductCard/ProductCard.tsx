@@ -1,9 +1,9 @@
 import { Image, TouchableOpacity } from 'react-native';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { styles } from './styles';
 import { useAppDispatch } from '@hooks/useAppDispatch';
 import { useAppSelector } from '@hooks/useAppSelector';
-import { ProductType } from '@type/Product.types';
+import { ProductType } from '@appTypes/Product.type';
 import ProductsSelectors from '@store/selectors/products.selectors';
 import FavoritesSelectors from '@store/selectors/favorites.selectors';
 import FavoritesActions from '@store/actions/favorites.actions';
@@ -24,14 +24,6 @@ const ProductCard = ({ id }: ProductCardProps) => {
   const isLiked = useAppSelector(FavoritesSelectors.isLiked(id));
   const navigation = useAppNavigation();
 
-  useEffect(() => {
-    console.log('ProductCard mount', productCard.price);
-    return () => console.log('ProductCard unmount ', productCard.price);
-  }, []);
-
-  useEffect(() => {
-    console.log('ProductCard update', productCard.price);
-  });
   const handleToggleLike = () =>
     dispatch(FavoritesActions.toggleLike({ productId: id }));
   return (

@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-import { ProductType } from '@type/Product.types';
+import { ProductType } from '@appTypes/Product.type';
 import ProductsActions from '@store/actions/products.actions';
 
 type initialStateType = {
@@ -8,13 +8,13 @@ type initialStateType = {
 };
 
 export const productsAdapter = createEntityAdapter({
-  selectId: (product: ProductType) => product.$id
+  selectId: (product: ProductType) => product.$id,
 });
 
 const initialState = productsAdapter.getInitialState<initialStateType>({
   status: 'idle',
   error: null,
-})
+});
 
 const productReducer = createSlice({
   name: 'products',
@@ -26,16 +26,18 @@ const productReducer = createSlice({
       state.error = null;
     });
 
-    builder.addCase(ProductsActions.fetchProducts.fulfilled, (state, action) => {
-      const documents = action.payload.documents as ProductType[];
-      productsAdapter.setAll(state, documents)
-     
-      state.status = 'succeeded';
-    });
+    builder.addCase(
+      ProductsActions.fetchProducts.fulfilled,
+      (state, action) => {
+        const documents = action.payload.documents as ProductType[];
+        productsAdapter.setAll(state, documents);
+        state.status = 'succeeded';
+      },
+    );
 
     builder.addCase(ProductsActions.fetchProducts.rejected, (state, action) => {
       state.status = 'failed';
-      state.error = 'Ошибка загрузки';
+      state.error = 'Error loading products';
     });
   },
 });

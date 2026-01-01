@@ -1,10 +1,10 @@
-import { createAction } from "@reduxjs/toolkit"
-import { ProductType } from "@type/Product.types";
+import { createAction } from '@reduxjs/toolkit';
+import { ProductType } from '@appTypes/Product.type';
 
 export type ToggleLikePayloadType = { productId: ProductType['$id'] };
 
 const FavoritesActions = {
-    toggleLike: createAction<ToggleLikePayloadType>('favorites/toggleLike')
-}
+  toggleLike: createAction<ToggleLikePayloadType>('favorites/toggleLike'),
+};
 
-export default FavoritesActions
+export default FavoritesActions;

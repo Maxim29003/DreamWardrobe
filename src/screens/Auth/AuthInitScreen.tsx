@@ -5,15 +5,14 @@ import { SCREENS } from '@routes/navigations.types';
 import Spacer from '@components/Spacer/Spacer';
 import UIText from '@ui/Text/UIText';
 import UIButton from '@ui/Button/UIButton';
-import { storage } from '@utils/MMKVStorage';
-import { persistor } from '@store/store';
-import { Alert } from 'react-native';
+import { styles } from './styles';
+
 
 const AuthInitScreen = () => {
   const navigation = useAppNavigation();
   return (
-    <MainContainer style={{ justifyContent: 'center', alignItems: 'center' }}>
-      <UIText style={{ textAlign: 'center' }}>
+    <MainContainer style={styles.initContainer}>
+      <UIText style={styles.initTitle}>
         Welcom to {'\n'} Dream Wardrobe
       </UIText>
       <Spacer height={30} />
@@ -21,7 +20,7 @@ const AuthInitScreen = () => {
         text="Sign In"
         variant="secondary"
         onPress={() => {
-          navigation.navigate(SCREENS.SIGN_IN);
+          navigation.navigate(SCREENS.AUTH, {auth:'signIn'});
         }}
       />
 
@@ -29,28 +28,7 @@ const AuthInitScreen = () => {
         text="Sign Up"
         variant="secondary"
         onPress={() => {
-          navigation.navigate(SCREENS.SIGN_UP);
-        }}
-      />
-        <UIButton
-        text="ClearAll"
-        variant="secondary"
-        onPress={async() => {
-         try {
-            
-
-            await persistor.pause(); 
-            await persistor.flush(); 
-            await persistor.purge(); 
-
-            storage.clearAll(); 
-            console.log('Все данные приложения очищены!');
-            Alert.alert("ClearAll", 'Все данные приложения очищены!')
-          } catch (error) {
-            console.error('Ошибка при очистке данных:', error);
-            Alert.alert("ClearAll", `Error: ${error}`)
-          }
-
+         navigation.navigate(SCREENS.AUTH, {auth:'signUp'});
         }}
       />
     </MainContainer>
