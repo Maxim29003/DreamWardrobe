@@ -10,8 +10,12 @@
 - **Redux Persist** - State persistence in MMKV storage
 - **React Hook Form** - Form validation and management
 - **MMKV** - High-performance local storage for caching and fast data access
-- **AppWrite** - Backend for authentication and database management
+- **AppWrite** - Used for data storage and backend database management
+- **Firebase** - Used for user authentication
 
+## Demo
+
+📺 [Watch the video demonstration](https://youtu.be/GJamht-RVCg)
 
 # Getting Started
 
