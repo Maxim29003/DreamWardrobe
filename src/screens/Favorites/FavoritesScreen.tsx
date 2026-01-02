@@ -1,32 +1,24 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import MainContainer from '@layouts/MainContainer/MainContainer';
-import Header from '@layouts/Header/Header';
 import { GridLayout } from '@layouts/GridLayout/GridLayout';
 import { calculateNumColumns, HEIGHT, WIDTH } from '@utils/normalizer';
 import ProductCard from '@components/ProductCard/ProductCard';
 import Spacer from '@components/Spacer/Spacer';
 import { useAppSelector } from '@hooks/useAppSelector';
 import FavoritesSelectors from '@store/selectors/favorites.selectors';
-import UIText from '@ui/Text/UIText';
 import { Colors } from '@styles/colors';
+import { useHeaderHeight } from '@react-navigation/elements';
+import { HeartOutlineIcon } from '@constants/Icons/Icons';
+import ListEmptyComponent from '@components/ListEmptyComponent/ListEmptyComponent';
 
 const FavoritesScreen = () => {
+  const headerHeight = useHeaderHeight();
   const favoritesProductIds = useAppSelector(
     FavoritesSelectors.favoritesProductsIds,
   );
 
-  useEffect(() => {
-    console.log('FavoritesScreen mount');
-    return () => console.log('FavoritesScreen unmount');
-  }, []);
-
-  useEffect(() => {
-    console.log('FavoritesScreen update');
-  });
-
   return (
-    <MainContainer>
-      <Header variant="back-title-avatar" title="My Favorites" />
+    <MainContainer topPadding={headerHeight}>
       <GridLayout
         data={favoritesProductIds}
         keyExtractor={id => id.toString()}
@@ -38,9 +30,15 @@ const FavoritesScreen = () => {
         heightItem={HEIGHT * 0.35}
         widthScreen={WIDTH}
         ListHeaderComponent={<Spacer height={20} />}
-        ListEmptyComponent={()=>(
-        <UIText style={{textAlign: 'center'}} color={Colors.TEXT_SECONDARY}>No Favorites</UIText>
-      )}
+        contentContainerStyle={{ flexGrow: 1 }}
+        ListEmptyComponent={() => (
+          <ListEmptyComponent
+            icon={
+              <HeartOutlineIcon width={40} height={40} fill={Colors.PRIMARY} />
+            }
+            text="No Favorites"
+          />
+        )}
       />
     </MainContainer>
   );

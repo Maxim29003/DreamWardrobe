@@ -14,23 +14,15 @@ export type Size = {
   label: string;
 };
 
-export const sizes: Size[] = [
-  { id: '1', label: 'S' },
-  { id: '2', label: 'M' },
-  { id: '3', label: 'L' },
-  { id: '4', label: 'XL' },
-];
+export const sizes  = ['S', 'M', 'L' , 'XL'];
+
 
 export type Color = {
   id: string;
   name: string;
 };
 
-export const colors: Color[] = [
-  { id: '3', name: 'blue' },
-  { id: '4', name: 'orange' },
-  { id: '5', name: 'green' },
+export const colors = ['blue','orange','green','pink','black'];
 
-  { id: '7', name: 'pink' },
-  { id: '8', name: 'black' },
-];
+
+

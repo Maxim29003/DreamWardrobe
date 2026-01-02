@@ -22,7 +22,6 @@ const calculateNumColumns = ():number => {
 };
 
 
-
 const figmaConverter = (size: number): number => (size / 411) * WIDTH;
 
 export {

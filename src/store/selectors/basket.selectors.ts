@@ -1,23 +1,26 @@
 import { basketAdapter } from '@store/reducers/entities/basket.reducer.ts';
 import { RootState } from '@store/store.ts';
-import { ProductType } from '@type/Product.types';
-import { ProductBasketCardType } from '@type/ProductBasketCardType.ts';
+import { BasketProductType } from '@appTypes/BasketProduct.type';
 
 const basketSelectors = basketAdapter.getSelectors(
   (state: RootState) => state.basket,
 );
 
- const basketProductIdsSelector = (state: RootState): ProductBasketCardType['id'][] =>
-  basketSelectors.selectIds(state)
-
 const BasketSelectors = {
-  ids: basketProductIdsSelector,
-  count: ( id: ProductType['id']) => (state: RootState) =>
-    basketSelectors.selectById(state, id).count,
+  selectById: (id: BasketProductType['id']) => (state: RootState) =>
+    basketSelectors.selectById(state, id),
 
-  totalCount: (state: RootState) => state.basket.totalCount,
-  totalPrice: (state: RootState) => state.basket.totalPrice
-}
+  selectAll: (state: RootState) => basketSelectors.selectAll(state),
 
+  totalCount: (state: RootState) =>
+    basketSelectors.selectAll(state).reduce((acc, cur) => acc + cur.count, 0),
 
-export default  BasketSelectors;
+  totalPrice: (state: RootState) =>
+    basketSelectors
+      .selectAll(state)
+      .reduce((acc, cur) => acc + cur.price * cur.count, 0),
+
+  basketCount: (state: RootState) => basketSelectors.selectAll(state).length,
+};
+
+export default BasketSelectors;

@@ -1,9 +1,9 @@
 import { RouteProp, useRoute } from "@react-navigation/native"
-import { SCREENS } from "@routes/navigations.types"
-import { StackParamList } from "@routes/stackParams"
+import { RootStackParamList } from "@routes/navigations.types"
 
-const useAppRoute = <SCREEN extends SCREENS>() => {
-  return useRoute<RouteProp<StackParamList, SCREEN>>()
+
+const useAppRoute = <SCREEN extends keyof RootStackParamList>() => {
+  return useRoute<RouteProp<RootStackParamList, SCREEN>>()
 }
 
 export default useAppRoute

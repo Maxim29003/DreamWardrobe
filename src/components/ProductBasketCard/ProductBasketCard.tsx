@@ -5,75 +5,82 @@ import SizeLabel from '@ui/SizeLabel/SizeLabel';
 import { styles } from './styles';
 import { useAppDispatch } from '@hooks/useAppDispatch';
 import Spacer from '@components/Spacer/Spacer';
-import BasketActions from '@store/actions/basket.actions.ts';
-import { useAppSelector } from '@hooks/useAppSelector.ts';
-import BasketSelectors from '@store/selectors/basket.selectors.ts';
-import ProductsSelectors from '@store/selectors/products.selectors';
-import { ProductType } from '@type/Product.types';
 import UIText from '@ui/Text/UIText';
 import { Colors } from '@styles/colors';
 import UIIconButton from '@ui/IconButton/UIIconButton';
-import { DeleteIcon } from '@constants/Icons/Icons';
+import { DeleteIcon, MinusIcon, PlusIcon } from '@constants/Icons/Icons';
+import { BasketProductType } from '@appTypes/BasketProduct.type';
+import BasketActions from '@store/actions/basket.actions';
 
 type ProductBasketCardProps = {
-  id: ProductType['id'];
+  basketProduct: BasketProductType;
 };
 
-const ProductBasketCard = ({ id }: ProductBasketCardProps) => {
-
-
+const ProductBasketCard = ({ basketProduct }: ProductBasketCardProps) => {
   const dispatch = useAppDispatch();
 
-  const product = useAppSelector(ProductsSelectors.selectById(id));
-  const count = useAppSelector(BasketSelectors.count(id));
-
-  
-  useEffect(() => {
-    console.log('ProductBasketCard mount', product.price);
-    return () => console.log('ProductBasketCard unmount ', product.price);
-  }, []);
-
-  useEffect(() => {
-    console.log('ProductBasketCard update', product.price);
-  });
-
   return (
-    <View style={styles.container}>
-      <View style={styles.innerContainer}>
-        <Image source={{ uri: product.photos[0] }} style={styles.image} />
-        <View style={styles.textContainer}>
-          <UIText variant="bodyMedium" color={Colors.TEXT_SECONDARY}>
-            {product.name}
-          </UIText>
-          <UIText variant="bodyMedium" color={Colors.TEXT_TERTIARY}>
-            {product.price}$
-          </UIText>
-          <View style={styles.labelsContainer}>
-            <ColorLabel size={32} color={product.color} />
-            <SizeLabel sizeDimension={32} sizeValue={product.size} />
+    <View
+      style={{
+        borderWidth: 1,
+        padding: 15,
+        borderRadius: 20,
+        borderColor: Colors.PRIMARY,
+      }}
+    >
+      <View style={styles.container}>
+        <View style={styles.innerContainer}>
+          <Image source={{ uri: basketProduct.photo }} style={styles.image} />
+          <View style={styles.textContainer}>
+            <UIText variant="bodyMedium" color={Colors.TEXT_SECONDARY}>
+              {basketProduct.name}
+            </UIText>
+            <UIText variant="bodyMedium" color={Colors.TEXT_TERTIARY}>
+              {basketProduct.price}$
+            </UIText>
+            <View style={styles.labelsContainer}>
+              <ColorLabel size={32} color={basketProduct.color} />
+              <SizeLabel sizeDimension={32} sizeValue={basketProduct.size} />
+            </View>
           </View>
         </View>
-      </View>
-      <View>
         <UIIconButton
           variant="otline"
           icon={<DeleteIcon fill={Colors.ICON_PRIMARY} />}
           onPress={() => {
-            if (product) {
-              console.log(product);
-              dispatch(
-                BasketActions.deleteProduct({
-                  productId: id,
-                  price: product.price,
-                }),
-              );
-            }
+            console.log(basketProduct);
+            dispatch(BasketActions.deleteProduct({ id: basketProduct.id }));
           }}
         />
-        <Spacer height={15} />
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+        }}
+      >
+        <UIIconButton
+          variant="filled"
+          icon={<PlusIcon />}
+          onPress={() => {
+            console.log(basketProduct);
+            dispatch(BasketActions.countIncrement({ id: basketProduct.id }));
+          }}
+        />
+        <Spacer width={15} />
         <UIText variant="bodyMedium" color={Colors.TEXT_TERTIARY}>
-          {count}
+          {basketProduct.count}
         </UIText>
+        <Spacer width={15} />
+        <UIIconButton
+          variant="filled"
+          icon={<MinusIcon />}
+          onPress={() => {
+            console.log(basketProduct);
+            dispatch(BasketActions.countDecrement({ id: basketProduct.id }));
+          }}
+        />
       </View>
     </View>
   );

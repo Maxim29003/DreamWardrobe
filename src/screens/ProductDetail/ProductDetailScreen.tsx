@@ -1,7 +1,6 @@
 import { Image, ScrollView, View } from 'react-native';
 import React, { useState } from 'react';
 import MainContainer from '@layouts/MainContainer/MainContainer';
-import Header from '@layouts/Header/Header';
 import { colors, sizes } from '@mocks/testImages';
 import Spacer from '@components/Spacer/Spacer';
 import Picker from '@components/Picker/Picker';
@@ -16,16 +15,47 @@ import BasketActions from '@store/actions/basket.actions.ts';
 import { useAppSelector } from '@hooks/useAppSelector';
 import ProductsSelectors from '@store/selectors/products.selectors';
 import UIText from '@ui/Text/UIText';
+import { useHeaderHeight } from '@react-navigation/elements';
+import useAppNavigation from '@hooks/useAppNavigation';
+import { SCREENS } from '@routes/navigations.types';
+import { useAuth } from '@hooks/useAuth';
 
 const ProductDetailScreen = () => {
-  const route = useAppRoute();
-  const productId = route?.params?.productId;
+  const route = useAppRoute<SCREENS.PRODUCT_DETAIL>();
+  const navigation = useAppNavigation();
   const dispatch = useAppDispatch();
+  const headerHeight = useHeaderHeight();
+  const { user } = useAuth();
+
+  const productId = route?.params?.productId;
   const product = useAppSelector(ProductsSelectors.selectById(productId!));
 
+  const [size, setSize] = useState(product.size);
+  const [color, setColor] = useState(product.color);
+
+  const handleAddToCart = () => {
+    if (!user) {
+      navigation.navigate(SCREENS.AUTH_INIT);
+      return;
+    }
+
+    if (!product) {
+      return;
+    }
+
+    const basketProduct = {
+      id: product.$id + size + color,
+      name: product.name,
+      price: product.price,
+      photo: product.photos[0],
+      size: size,
+      color: color,
+    };
+    dispatch(BasketActions.addProduct(basketProduct));
+  };
+
   return (
-    <MainContainer>
-      <Header variant="back-avatar" />
+    <MainContainer style={{ paddingTop: headerHeight }}>
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
@@ -48,14 +78,16 @@ const ProductDetailScreen = () => {
         </UIText>
         <Spacer height={10} />
         <Picker
-          keyExtractor={item => item.id}
+          keyExtractor={item => item}
           data={sizes}
+          value={size}
+          onChange={item => setSize(item)}
           horizontal={true}
           renderItem={(item, selectedValue) => (
             <View style={styles.sizeRow}>
               <SizeLabel
                 sizeDimension={36}
-                sizeValue={item.label}
+                sizeValue={item}
                 isSelected={item === selectedValue}
               />
               <Spacer width={12} />
@@ -70,18 +102,20 @@ const ProductDetailScreen = () => {
         <Spacer height={10} />
 
         <Picker
-          keyExtractor={item => item.id}
+          keyExtractor={item => item}
           data={colors}
+          value={color}
+          onChange={item => setColor(item)}
           horizontal={true}
           renderItem={(item, selectedValue) => (
             <View style={styles.colorRow}>
               <View
                 style={[
                   styles.colorCircle,
-                  item === selectedValue && { borderColor: item.name },
+                  item === selectedValue && { borderColor: item },
                 ]}
               >
-                <ColorLabel size={36} color={item.name} />
+                <ColorLabel size={36} color={item} />
               </View>
 
               <Spacer width={12} />
@@ -89,20 +123,7 @@ const ProductDetailScreen = () => {
           )}
         />
         <Spacer height={31} />
-        <UIButton
-          text="Add to Cart"
-          onPress={() => {
-            if (product) {
-              console.log(product);
-              dispatch(
-                BasketActions.addProduct({
-                  productId: productId!,
-                  price: product.price,
-                }),
-              );
-            }
-          }}
-        />
+        <UIButton text="Add to Cart" onPress={handleAddToCart} />
         <Spacer height={31} />
       </ScrollView>
     </MainContainer>

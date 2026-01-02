@@ -7,6 +7,8 @@ import DeleteIcon from "@assets/svg/delete.svg"
 import SearchIcon from "@assets/svg/search.svg"
 import ArrowBackIcon from "@assets/svg/arrowBack.svg"
 import GridIcon from "@assets/svg/grid.svg"
+import PlusIcon from "@assets/svg/plus.svg"
+import MinusIcon from "@assets/svg/minus.svg"
 
 export {
     HomeIcon,
@@ -18,5 +20,7 @@ export {
     SearchIcon,
     ArrowBackIcon,
     GridIcon,
+    PlusIcon,
+    MinusIcon,
 }
 

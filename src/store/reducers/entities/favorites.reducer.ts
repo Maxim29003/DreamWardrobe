@@ -1,19 +1,16 @@
-import {
-  createSlice,
-  PayloadAction,
-} from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import FavoritesActions, {
   ToggleLikePayloadType,
 } from '@store/actions/favorites.actions';
-import { ProductType } from '@type/Product.types';
+import { ProductType } from '@appTypes/Product.type';
 
 type FavoritesType = {
   favoritesProductIds: ProductType['$id'][];
 };
 
-const initialState:FavoritesType = {
+const initialState: FavoritesType = {
   favoritesProductIds: [],
-}
+};
 
 const favoritesReducer = createSlice({
   name: 'favorites',
@@ -24,10 +21,12 @@ const favoritesReducer = createSlice({
       FavoritesActions.toggleLike,
       (state, action: PayloadAction<ToggleLikePayloadType>) => {
         const id = action.payload.productId;
-        if (state.favoritesProductIds.includes(id)){
-          state.favoritesProductIds = state.favoritesProductIds.filter(item => item !== id)
+        if (state.favoritesProductIds.includes(id)) {
+          state.favoritesProductIds = state.favoritesProductIds.filter(
+            item => item !== id,
+          );
         } else {
-          state.favoritesProductIds.push(id)
+          state.favoritesProductIds.push(id);
         }
       },
     );
