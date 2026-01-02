@@ -15,8 +15,8 @@
 
 # Getting Started
 
-## Create env.ts file
- - export const ENDPOINT = 'https://[your-appwrite-endpoint]';
- - export const PROJECT_ID = '[your-project-id]';
- - export const DREAM_WARDROBE_DB = '[your-database-id]';
- - export const PRODUCTS = '[your-products-collection-id]';
+## Create .env file
+ - ENDPOINT = 'https://[your-appwrite-endpoint]';
+ - PROJECT_ID = '[your-project-id]';
+ - DREAM_WARDROBE_DB = '[your-database-id]';
+ - PRODUCTS = '[your-products-collection-id]';
